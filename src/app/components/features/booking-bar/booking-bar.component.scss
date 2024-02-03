@@ -1,0 +1,14 @@
+.booking__bar {
+    max-width: 1128px !important;
+    display: block;
+    margin: auto;
+    background: #fff;
+    border: 1px solid rgba(239, 82, 34, .6);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    outline: 8px solid rgba(170, 46, 8, .1);
+
+    &--horizontal{
+        display: flex;
+    }
+}

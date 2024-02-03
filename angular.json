@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -95,9 +96,22 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "e2e": {
+          "builder": "@puppeteer/ng-schematics:puppeteer",
+          "options": {
+            "devServerTarget": "BookingBusLine:serve",
+            "testRunner": "jasmine"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "BookingBusLine:serve:production"
+            }
           }
         }
       }
