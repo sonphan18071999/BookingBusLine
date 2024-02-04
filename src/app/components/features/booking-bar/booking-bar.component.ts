@@ -7,7 +7,7 @@ import { DepartureDateComponent } from '../departure-date/departure-date.compone
 import { ReturnDateComponent } from '../return-date/return-date.component';
 import { TicketCountComponent } from '../ticket-count/ticket-count.component';
 import { Store } from '@ngrx/store';
-import { selectTicketsCount } from '../../../store/selectors/tickets-booking.selector';
+import { selectCurrentTickets } from '../../../store/selectors/tickets-booking.selector';
 import { AppState } from '../../../store/app-state';
 
 @Component({
@@ -18,14 +18,10 @@ import { AppState } from '../../../store/app-state';
   styleUrl: './booking-bar.component.scss'
 })
 export class BookingBarComponent implements OnInit{
-  tickets$ = this.store.select(selectTicketsCount);
 
   constructor(private store: Store<AppState>){}
 
   ngOnInit(): void {
-    this.tickets$.subscribe(data=>{
-      console.log(data)
-    })
   }
 
   
