@@ -1,10 +1,18 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideStore, provideState } from '@ngrx/store';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { loginReducer } from './store/reducers/login.reducer';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { updateTicketsReducer } from './store/reducers/update-tickets.reducer';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync('noop')]
+  providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync('noop'),
+    provideStore(),
+    provideState({ name: 'user', reducer: loginReducer }), 
+    provideState({ name: 'tickets', reducer: updateTicketsReducer }),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })]
 };
