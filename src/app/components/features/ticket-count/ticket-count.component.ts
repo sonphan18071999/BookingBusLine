@@ -13,6 +13,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 export class TicketCountComponent {
   toppings = new FormControl('');
 
-  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  toppingList: string[] = ['1','2','3','4'];
 
 }
