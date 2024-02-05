@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { TripType } from '../../../enums/trip-type';
 import { AppState } from '../../../store/app-state';
 import { Store } from '@ngrx/store';
-import { updateTicketsInformation } from '../../../store/actions/tickets-booking.actions';
-import { BusTicket } from '../../../models/bus-ticket.model';
-import { TripsService } from '../../../services/trips.service';
+import { TripService } from '../../../services/trips.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-trip-type',
@@ -15,16 +14,24 @@ import { TripsService } from '../../../services/trips.service';
   templateUrl: './trip-type.component.html',
   styleUrl: './trip-type.component.scss'
 })
-export class TripTypeComponent {
-  isOneWayTrip: TripType = TripType.ONE_WAY;
+export class TripTypeComponent implements OnInit, OnDestroy {
+  tripType: TripType = TripType.ONE_WAY;
+  private unsubscribe$ = new Subject<void>();
+
   constructor(protected store: Store<AppState>,
-    protected tripsService: TripsService) { }
+    protected tripService: TripService) { }
+  
+  ngOnInit(): void {
+  }
 
   onTripTypeChange(event: any): void {
-    //missing action to update TripType into tickets
-    
-    this.tripsService.getTripType().subscribe(data => {
-      console.log("current trip type", data)
-    });
+    this.tripType = event.value;
+    this.tripService.updateTripType(event.value);
   }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
 }

@@ -6,5 +6,5 @@ export const selectTripType = (state: AppState) => state.tickets;
 
 export const selectCurrentTripType = createSelector(
     selectTripType,
-    (state: TicketsState) => state.tickets[0].tripType
+    (state: TicketsState) => state.tickets.tripType
 );

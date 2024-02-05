@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../store/app-state';
 import { TripType } from '../../../enums/trip-type';
-import { selectCurrentTickets } from '../../../store/selectors/tickets-booking.selector';
+import { Subject, takeUntil } from 'rxjs';
+import { TripService } from '../../../services/trips.service';
 
 @Component({
   selector: 'app-return-date',
@@ -12,16 +11,24 @@ import { selectCurrentTickets } from '../../../store/selectors/tickets-booking.s
   templateUrl: './return-date.component.html',
   styleUrl: './return-date.component.scss'
 })
-export class ReturnDateComponent implements OnInit {
-  currentTickets$ = this.store.select(selectCurrentTickets);
-  isOneWayTrip: TripType = TripType.ONE_WAY;
+export class ReturnDateComponent implements OnInit, OnDestroy {
+  unsubcribe$: Subject<boolean> = new Subject()
+  tripType: TripType = TripType.ONE_WAY; 
 
-  constructor(private store: Store<AppState>) { }
+  constructor(protected tripService: TripService) { }
 
-  ngOnInit(): void {
-    this.currentTickets$.subscribe(tickets => {
-      this.isOneWayTrip = tickets[0].tripType;
-      console.log('is oneway trip',this.isOneWayTrip)
+  ngOnInit(): void {  
+    this.tripService.currentTrip.pipe(takeUntil(this.unsubcribe$)).subscribe((tripType: TripType)=>{
+      this.tripType = tripType;
     })
+  }
+
+  ngOnDestroy(): void {
+    this.unsubcribe$.next(true);
+    this.unsubcribe$.complete();
+  }
+
+  isOneWay():boolean{
+    return this.tripType === TripType.ONE_WAY ? true: false;
   }
 }

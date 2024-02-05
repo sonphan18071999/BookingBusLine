@@ -4,7 +4,7 @@ import { AppState } from "../app-state";
 
 export const selectTickets = (state: AppState) => state.tickets;
 
-export const selectCurrentTickets = createSelector(
+export const selectCurrentTicket = createSelector(
     selectTickets,
     (state: TicketsState) => state.tickets
 );

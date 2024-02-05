@@ -7,7 +7,6 @@ import { DepartureDateComponent } from '../departure-date/departure-date.compone
 import { ReturnDateComponent } from '../return-date/return-date.component';
 import { TicketCountComponent } from '../ticket-count/ticket-count.component';
 import { Store } from '@ngrx/store';
-import { selectCurrentTickets } from '../../../store/selectors/tickets-booking.selector';
 import { AppState } from '../../../store/app-state';
 
 @Component({
