@@ -10,6 +10,7 @@ import { TripType } from '../../../enums/trip-type';
 import { Subject, takeUntil } from 'rxjs';
 import { TripService } from '../../../services/trips.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking-bar',
@@ -23,7 +24,7 @@ export class BookingBarComponent implements OnInit{
   unsubcribe$: Subject<boolean> = new Subject()
   tripType: TripType = TripType.ONE_WAY; 
 
-  constructor(protected tripService: TripService){}
+  constructor(protected tripService: TripService, protected router: Router){}
 
   ngOnInit(): void {
     this.tripService.currentTrip.pipe(takeUntil(this.unsubcribe$)).subscribe((tripType: TripType)=>{
@@ -39,6 +40,10 @@ export class BookingBarComponent implements OnInit{
 
   isOneWay():boolean{
     return this.tripType === TripType.ONE_WAY ? true: false;
+  }
+
+  goToSearchPage(): void{
+   this.router.navigate(['search-result']);
   }
   
 }
