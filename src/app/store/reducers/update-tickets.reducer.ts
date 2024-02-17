@@ -14,7 +14,7 @@ export const initialTicketsState: TicketsState = {
             passengerName: 'passenger',
             departureCity: '',
             destinationCity: '',
-            ticketPrice: 1,
+            ticketPrice: '1',
             seatNumber: '1',
             tripType: TripType.ONE_WAY
         }

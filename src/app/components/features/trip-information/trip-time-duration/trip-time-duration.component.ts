@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { ConvertUnixToDateGMTPipe } from '../../../../cores/pipes/convert-unix-to-date-gmt.pipe';
 
 @Component({
@@ -9,7 +9,6 @@ import { ConvertUnixToDateGMTPipe } from '../../../../cores/pipes/convert-unix-t
   styleUrl: './trip-time-duration.component.scss'
 })
 export class TripTimeDurationComponent {
-  departureTime = signal<EpochTimeStamp>(1707914168);
-  arrivaleTime = signal<EpochTimeStamp>(1707889022);  
-  
+  @Input() arrivalTime?  = ''
+  @Input() departureTime = ''
 }

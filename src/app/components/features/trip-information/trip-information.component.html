@@ -1,3 +1,35 @@
-<mat-card>
-    <app-trip-time-duration/>
-</mat-card>
+<div class="trip__information">
+    @for( item of trips();track item.id){
+    <mat-card class="trip">
+        <div class="trip__duration">
+            @if(item.arrivalTime && item.departureTime){
+                <app-trip-time-duration 
+                [arrivalTime] = item.arrivalTime
+                [departureTime] = item.departureTime/>
+            }
+            
+            <p style="margin-left: 1rem;">Limousine</p>
+            <div>
+                <p>30 chỗ trống</p>
+                <br />
+                <p>
+                    <b>
+                        {{item.ticketPrice}} $
+                    </b>
+                </p>
+            </div>
+        </div>
+        <div class="trip__actions">
+            <div>
+                <button>Choose seat</button>
+                <button>Schedule</button>
+                <button>Transshipment</button>
+                <button>Policy</button>
+            </div>
+            <div>
+                <button>Select trip</button>
+            </div>
+        </div>
+    </mat-card>
+    }
+</div>

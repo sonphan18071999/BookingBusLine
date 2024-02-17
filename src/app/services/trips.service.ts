@@ -12,7 +12,6 @@ import { updateTicketsInformation } from '../store/actions/tickets-booking.actio
 })
 export class TripService {
   currentTrip = new BehaviorSubject<TripType>(TripType.ONE_WAY);
-
   currentTicket$: Observable<BusTicket> = new Subject<BusTicket>();
 
   constructor(protected store: Store<AppState>) {

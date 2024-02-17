@@ -1,7 +1,9 @@
 <div class="trip-time__duration">
     <div>
         <p>
-            <b>{{departureTime() | convertUnixToDateGMT}}</b>
+            @if(departureTime){
+            <b>{{departureTime | convertUnixToDateGMT}}</b>
+            }
         </p>
         <p></p>
     </div>
@@ -11,6 +13,8 @@
         (Asian/ Ho Chi Minh)
     </p>
     <p>
-        <b>{{arrivaleTime() | convertUnixToDateGMT}}</b>
+        @if(arrivalTime){
+        <b>{{arrivalTime | convertUnixToDateGMT}}</b>
+        }
     </p>
 </div>

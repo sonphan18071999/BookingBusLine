@@ -5,9 +5,9 @@ export interface BusTicket {
     passengerName: string;
     departureCity?: string;
     destinationCity?: string;
-    departureTime?: Date;
-    arrivalTime?: Date;
-    ticketPrice?: number;
+    departureTime?: string;
+    arrivalTime?: string;
+    ticketPrice?: string;
     seatNumber?: string;
-    tripType: TripType;
+    tripType: TripType; 
 }

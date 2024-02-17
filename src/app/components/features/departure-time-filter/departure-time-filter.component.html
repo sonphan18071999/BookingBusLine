@@ -2,7 +2,7 @@
     <p>Departure Time</p>
     @for (item of departureTimes();track item.time) {
     <div>
-        <input type="checkbox" [value]=item.time [name]=item.time [id]="item.time" (click)="applyFilter(item.time)"/>
+        <input type="checkbox" [value]=item.time [name]=item.time [id]="item.time" (click)="applyFilter(item)"/>
         <label [for]=item.time>{{item.time}}</label>
     </div>
     }

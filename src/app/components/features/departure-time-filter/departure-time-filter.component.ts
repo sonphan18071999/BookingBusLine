@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { DepartureTimesFilter } from '../../../models/departure-filter.model';
+import { SearchTripFilterService } from '../../../services/search-trip-filter.service';
 
 
 @Component({
@@ -9,16 +10,22 @@ import { DepartureTimesFilter } from '../../../models/departure-filter.model';
   templateUrl: './departure-time-filter.component.html',
   styleUrl: './departure-time-filter.component.scss'
 })
-export class DepartureTimeFilterComponent {
-  departureMockTime: DepartureTimesFilter[] = [
-    { time: 'Midnight 00:00 - 06:00' }, { time: 'Morning 06:00 - 12:00' }, { time: 'Affternoon 12:00 - 18:00' }, {
-      time: 'Evening 18:00 - 24:00'
-    }
-  ]
-  departureTimes = signal<DepartureTimesFilter[]>(this.departureMockTime)
-  selectedTime: DepartureTimesFilter = { time: '' }
+export class DepartureTimeFilterComponent implements OnInit {
 
-  applyFilter(timeSelected: string): void {
-    console.log('seectedTime',timeSelected)
+  departureTimes = signal<DepartureTimesFilter[]>([])
+  selectedTime: DepartureTimesFilter = {
+    time: '',
+    id: '',
+    isSelected: false
+  }
+
+  constructor(protected searchTripFilterService: SearchTripFilterService) { }
+
+  ngOnInit(): void {
+    this.departureTimes = this.searchTripFilterService.departures;
+  }
+
+  applyFilter(selectedItem: DepartureTimesFilter): void {
+    this.searchTripFilterService.updateItem(selectedItem)
   }
 }

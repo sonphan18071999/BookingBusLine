@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { DepartureTimeFilterComponent } from '../features/departure-time-filter/departure-time-filter.component';
+import { DepartureTimeFilterComponent } from '../departure-time-filter/departure-time-filter.component';
 
 @Component({
   selector: 'app-searchs-filter',

@@ -1,0 +1,18 @@
+.trip__information {
+
+    .trip {
+        margin-bottom: 2rem;
+        padding: 1rem;
+
+        &__duration {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            margin-right: 1rem;
+        }
+
+        &__actions {
+            display: flex;
+            justify-content: space-between
+        }
+    }
+}
