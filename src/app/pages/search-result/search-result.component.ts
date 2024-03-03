@@ -7,7 +7,7 @@ import { BookingBarComponent } from '../../components/features/booking-bar/booki
 @Component({
   selector: 'app-search-result',
   standalone: true,
-  imports: [TripInformationComponent,TripsSelctedCardComponent, SearchsFilterComponent, BookingBarComponent],
+  imports: [TripInformationComponent, TripsSelctedCardComponent, SearchsFilterComponent, BookingBarComponent],
   templateUrl: './search-result.component.html',
   styleUrl: './search-result.component.scss'
 })
