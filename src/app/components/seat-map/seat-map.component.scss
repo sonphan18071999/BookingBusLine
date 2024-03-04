@@ -17,4 +17,9 @@
     .dynamic-space{
         width: 40px;
     }
+
+    &-table{
+        display: flex;
+        gap: 2rem;
+    }
 }

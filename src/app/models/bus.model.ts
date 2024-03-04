@@ -3,7 +3,7 @@ import { Seat } from "./seat.model";
 
 export interface Bus {
     id: string;
-    seats: Seat[];
+    seats: { [floor: string]: Seat[] };
     type: BusType;
 }
 
