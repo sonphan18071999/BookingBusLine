@@ -4,4 +4,17 @@
         align-items: center;
         justify-content: space-between;
     }
+
+    &-row {
+        display: flex;
+        gap: 1rem;
+    }
+
+    &-seat {
+        width: 40px;
+    }
+
+    .dynamic-space{
+        width: 40px;
+    }
 }
