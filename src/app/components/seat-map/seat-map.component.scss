@@ -1,4 +1,7 @@
 .seat__map {
+    width: 100%;
+    padding: 1rem 2rem;
+
     &-header {
         display: flex;
         align-items: center;
@@ -21,5 +24,10 @@
     &-table{
         display: flex;
         gap: 2rem;
+    }
+
+    &-content{
+        display: flex;
+        align-items: flex-start;
     }
 }

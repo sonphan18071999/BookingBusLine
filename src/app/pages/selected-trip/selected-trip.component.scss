@@ -1,5 +1,8 @@
 .selected__trip{
     width: 80%;
-    max-width: 1128px;
     margin: auto;
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 60% 30%;
+    column-gap: 2rem;
 }

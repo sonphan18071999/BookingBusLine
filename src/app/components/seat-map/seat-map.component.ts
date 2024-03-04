@@ -3,14 +3,15 @@ import { Bus } from '../../models/bus.model';
 import { busMock } from '../../mocks/bus-mock.data';
 import { BusType } from '../../enums/bus-types';
 import { Seat } from '../../models/seat.model';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-seat-map',
   standalone: true,
-  imports: [],
+  imports: [MatCardModule],
   templateUrl: './seat-map.component.html',
   styleUrl: './seat-map.component.scss',
-  host: { ngSkipHydration: 'false' },
+  host: { ngSkipHydration: 'true' },
 })
 export class SeatMapComponent implements OnInit {
   busInformation = signal<Bus>(busMock[0]);
