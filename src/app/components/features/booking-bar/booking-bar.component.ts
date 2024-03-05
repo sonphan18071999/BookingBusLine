@@ -11,11 +11,12 @@ import { Subject, takeUntil } from 'rxjs';
 import { TripService } from '../../../services/trips.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-booking-bar',
   standalone: true,
-  imports: [CommonModule, MatCardModule, TripTypeComponent, OriginComponent, DestinationComponent, DepartureDateComponent, ReturnDateComponent, TicketCountComponent],
+  imports: [CommonModule, MatCardModule, TripTypeComponent, OriginComponent, DestinationComponent, DepartureDateComponent, ReturnDateComponent, TicketCountComponent, MatButtonModule],
   templateUrl: './booking-bar.component.html',
   styleUrl: './booking-bar.component.scss'
 })

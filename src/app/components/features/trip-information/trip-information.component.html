@@ -3,18 +3,16 @@
     <mat-card class="trip">
         <div class="trip__duration">
             @if(item.arrivalTime && item.departureTime){
-                <app-trip-time-duration 
-                [arrivalTime] = item.arrivalTime
-                [departureTime] = item.departureTime/>
+            <app-trip-time-duration [busRoute]=item />
             }
-            
+
             <p style="margin-left: 1rem;">Limousine</p>
             <div>
-                <p>30 chỗ trống</p>
+                <p>{{item.seats | getAvailableSeat}} available seats</p>
                 <br />
                 <p>
                     <b>
-                        {{item.ticketPrice}} $
+                        from {{item.seats | getMinSeatPrice}} $
                     </b>
                 </p>
             </div>

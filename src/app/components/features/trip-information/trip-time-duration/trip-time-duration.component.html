@@ -1,20 +1,20 @@
 <div class="trip-time__duration">
     <div>
         <p>
-            @if(departureTime){
-            <b>{{departureTime | convertUnixToDateGMT}}</b>
+            @if(busRoute.departureTime){
+            <b>{{busRoute.departureTime | convertUnixToDateGMT}}</b>
             }
         </p>
         <p></p>
     </div>
-    <p>
-        8 hours
+    <p style="text-align: center;">
+        {{busRoute | calculateRouteDuration | convertUnixToDateGMT}}
         <br />
         (Asian/ Ho Chi Minh)
     </p>
     <p>
-        @if(arrivalTime){
-        <b>{{arrivalTime | convertUnixToDateGMT}}</b>
+        @if(busRoute.arrivalTime){
+        <b>{{busRoute.arrivalTime | convertUnixToDateGMT}}</b>
         }
     </p>
 </div>

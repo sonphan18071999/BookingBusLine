@@ -7,6 +7,7 @@ import { BusTicket } from '../models/bus-ticket.model';
 })
 export class BookingService {
   tickets: Observable<BusTicket[]> = of([]);
-  
+  // selectedTrips = 
   constructor() { }
+
 }

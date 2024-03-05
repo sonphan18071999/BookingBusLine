@@ -1,6 +1,6 @@
 import { Component, ElementRef, Inject, Input, OnInit, Renderer2, Signal, computed, signal } from '@angular/core';
 import { Bus } from '../../models/bus.model';
-import { busMock } from '../../mocks/bus-mock.data';
+import { busMock } from '../../shared/mocks/bus-mock.data';
 import { BusType } from '../../enums/bus-types';
 import { Seat } from '../../models/seat.model';
 import { MatCardModule } from '@angular/material/card';

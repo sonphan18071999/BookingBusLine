@@ -5,6 +5,5 @@ export interface Bus {
     id: string;
     seats: { [floor: string]: Seat[] };
     type: BusType;
+    licensePlate: string;
 }
-
-

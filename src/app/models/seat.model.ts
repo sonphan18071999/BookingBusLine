@@ -1,4 +1,5 @@
 export interface Seat {
     id: string;
-    isOccupied: boolean;
+    isOccupied?: boolean;
+    price?: string;
 }
