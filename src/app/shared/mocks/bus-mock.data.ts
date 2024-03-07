@@ -3,7 +3,7 @@ import { Bus } from "../../models/bus.model";
 
 export const busMock: Bus[] = [
     {
-        id: "1",
+        id: "BUS001",
         seats: {
             floorBelow: [
                 { id: "A1" },
@@ -55,7 +55,7 @@ export const busMock: Bus[] = [
         licensePlate: "59 - X2 12345"
     },
     {
-        id: "1",
+        id: "BUS002",
         seats: {
             floorBelow: [
                 { id: "A1" },

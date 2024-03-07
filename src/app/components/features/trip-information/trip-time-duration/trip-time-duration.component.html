@@ -5,16 +5,23 @@
             <b>{{busRoute.departureTime | convertUnixToDateGMT}}</b>
             }
         </p>
-        <p></p>
+        <p>
+            {{busRoute.departureLocation}}
+        </p>
     </div>
     <p style="text-align: center;">
         {{busRoute | calculateRouteDuration | convertUnixToDateGMT}}
         <br />
         (Asian/ Ho Chi Minh)
     </p>
-    <p>
-        @if(busRoute.arrivalTime){
-        <b>{{busRoute.arrivalTime | convertUnixToDateGMT}}</b>
-        }
-    </p>
+    <div>
+        <p>
+            @if(busRoute.arrivalTime){
+            <b>{{busRoute.arrivalTime | convertUnixToDateGMT}}</b>
+            }
+        </p>
+        <p>
+            {{busRoute.arrivalDestination}}
+        </p>
+    </div>
 </div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal, effect, WritableSignal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { TripTimeDurationComponent } from './trip-time-duration/trip-time-duration.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,6 +8,9 @@ import { BusRoute } from '../../../models/routes.model';
 import { busRoutesMock } from '../../../shared/mocks/bus-routes.mock';
 import { GetAvailableSeatPipe } from '../../../cores/pipes/get-available-seat.pipe';
 import { GetMinSeatPricePipe } from '../../../cores/pipes/get-min-seat-price.pipe';
+import { busMock } from '../../../shared/mocks/bus-mock.data';
+import { Bus } from '../../../models/bus.model';
+import { Trip } from '../../../models/trip.model';
 
 @Component({
   selector: 'app-trip-information',
@@ -16,10 +19,39 @@ import { GetMinSeatPricePipe } from '../../../cores/pipes/get-min-seat-price.pip
   templateUrl: './trip-information.component.html',
   styleUrl: './trip-information.component.scss'
 })
-export class TripInformationComponent {
-  trips = signal<BusRoute[]>(busRoutesMock);
+export class TripInformationComponent implements OnInit {
+  busRoutes = signal<BusRoute[]>(busRoutesMock);
+  buses = signal<Bus[]>(busMock);
+  trips = signal<Trip[]>([]);
+
   constructor(protected router: Router) { }
+
+  ngOnInit(): void {
+    this.buildTrips();
+    console.log(this.trips())
+  }
+
   selectTrip(tripId: string = "mx4ux"): void {
     this.router.navigate([`/selected-trip/${tripId}`])
   }
+
+  buildTrips(): void {
+    let trips = [] as Trip[];
+
+    this.busRoutes().forEach((route, ind) => {
+      let tripInformation = {} as Trip;
+      let busFound = this.buses().filter(bus => bus.id === route.busId)[0];
+
+      if (busFound) {
+        tripInformation = {
+          ...route, ...busFound
+        };
+        trips[ind] = tripInformation
+      }
+    })
+
+    this.trips.set(trips);
+  }
 }
+
+

@@ -5,8 +5,9 @@
             @if(item.arrivalTime && item.departureTime){
             <app-trip-time-duration [busRoute]=item />
             }
-
-            <p style="margin-left: 1rem;">Limousine</p>
+            <p style="margin-left: 1rem;">
+                <i>{{item.type}}</i>
+            </p>
             <div>
                 <p>{{item.seats | getAvailableSeat}} available seats</p>
                 <br />
