@@ -11,6 +11,8 @@ import { GetMinSeatPricePipe } from '../../../cores/pipes/get-min-seat-price.pip
 import { busMock } from '../../../shared/mocks/bus-mock.data';
 import { Bus } from '../../../models/bus.model';
 import { Trip } from '../../../models/trip.model';
+import { Store } from '@ngrx/store';
+import { currentTripSelected } from '../../../store/selectors/trip.selector';
 
 @Component({
   selector: 'app-trip-information',
@@ -24,7 +26,7 @@ export class TripInformationComponent implements OnInit {
   buses = signal<Bus[]>(busMock);
   trips = signal<Trip[]>([]);
 
-  constructor(protected router: Router) { }
+  constructor(protected router: Router, protected store: Store) { }
 
   ngOnInit(): void {
     this.buildTrips();
@@ -32,6 +34,9 @@ export class TripInformationComponent implements OnInit {
   }
 
   selectTrip(tripId: string = "mx4ux"): void {
+    // console.log('id selected', tripId)
+    let selectedTrip = this.trips().filter((trip)=>trip.id === tripId)[0];
+    this.store.dispatch(selectedTrip);
     this.router.navigate([`/selected-trip/${tripId}`])
   }
 
@@ -40,11 +45,14 @@ export class TripInformationComponent implements OnInit {
 
     this.busRoutes().forEach((route, ind) => {
       let tripInformation = {} as Trip;
-      let busFound = this.buses().filter(bus => bus.id === route.busId)[0];
+      let busFound = this.buses().filter(bus => bus.id === route.busId)[0]
 
       if (busFound) {
+        const { seats, id, ...busWithoutSeats } = busFound;
+        let removedSeatsDefault = busWithoutSeats;
+
         tripInformation = {
-          ...route, ...busFound
+          ...route, ...removedSeatsDefault
         };
         trips[ind] = tripInformation
       }
@@ -53,5 +61,9 @@ export class TripInformationComponent implements OnInit {
     this.trips.set(trips);
   }
 }
+
+type PropertiesOfType<T, U> = {
+  [K in keyof T]: T[K] extends U ? K : never;
+}[keyof T];
 
 

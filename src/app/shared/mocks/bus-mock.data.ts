@@ -82,5 +82,26 @@ export const busMock: Bus[] = [
         },
         type: BusType.NORMAL,
         licensePlate: "59 - X2 00000"
+    },
+    {
+        id: "BUS003",
+        seats: {
+            floorBelow: [
+                { id: "A1" },
+                { id: "A2" },
+                { id: "A3" },
+                { id: "A4" },
+                { id: "A5" },
+                { id: "A6" },
+                { id: "A7" },
+                { id: "A8" },
+                { id: "A9" },
+                { id: "A10" },
+                { id: "A11" },
+                { id: "A12" }
+            ]
+        },
+        type: BusType.LIMOUSINE,
+        licensePlate: "59 - X2 00000"
     }
 ]

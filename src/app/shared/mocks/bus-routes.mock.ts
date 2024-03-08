@@ -2,7 +2,7 @@ import { BusRoute } from "../../models/routes.model";
 
 export const busRoutesMock: BusRoute[] = [
     {
-        id: "1",
+        id: "vnux2ua",
         busId: "BUS001",
         departureTime: "1646480400", // 2024-03-05T08:00:00
         arrivalTime: "1646494800",   // 2024-03-05T12:00:00
@@ -57,7 +57,7 @@ export const busRoutesMock: BusRoute[] = [
         },
     },
     {
-        id: "2",
+        id: "vnlx2ua",
         busId: "BUS002",
         departureTime: "1646576400", // 2024-03-06T10:00:00
         arrivalTime: "1646590800",   // 2024-03-06T14:00:00
@@ -112,22 +112,26 @@ export const busRoutesMock: BusRoute[] = [
         },
     },
     {
-        id: "3",
+        id: "mnlx2ua",
         busId: "BUS003",
         departureTime: "1646662800", // 2024-03-07T12:00:00
         arrivalTime: "1646677200",   // 2024-03-07T16:00:00
         departureLocation: "City C",
         arrivalDestination: "City D",
         seats: {
-            "floorBelow": [
-                { id: "L1", isOccupied: true, price: "25" },
-                { id: "L2", isOccupied: true, price: "25" },
-                { id: "L3", isOccupied: false, price: "25" }
-            ],
-            "floorUpper": [
-                { id: "U1", isOccupied: true, price: "25" },
-                { id: "U2", isOccupied: true, price: "25" },
-                { id: "U3", isOccupied: true, price: "25" }
+            floorBelow: [
+                { id: "A1", isOccupied: true, price: "35" },
+                { id: "A2", isOccupied: false, price: "25" },
+                { id: "A3", isOccupied: true, price: "25" },
+                { id: "A4", isOccupied: false, price: "25" },
+                { id: "A5", isOccupied: false, price: "25" },
+                { id: "A6", isOccupied: false, price: "25" },
+                { id: "A7", isOccupied: true, price: "25" },
+                { id: "A8", isOccupied: false, price: "25" },
+                { id: "A9", isOccupied: true, price: "25" },
+                { id: "A10", isOccupied: false, price: "15" },
+                { id: "A11", isOccupied: false, price: "15" },
+                { id: "A12", isOccupied: true, price: "15" }
             ]
         }
     },
@@ -237,7 +241,6 @@ export const busRoutesMock: BusRoute[] = [
                 { id: "B18", isOccupied: false, price: "20" },
                 { id: "B19", isOccupied: false, price: "20" },
                 { id: "B20", isOccupied: false, price: "20" }
-
             ]
         },
     },
