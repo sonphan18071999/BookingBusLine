@@ -4,6 +4,7 @@ import { busMock } from '../../shared/mocks/bus-mock.data';
 import { BusType } from '../../enums/bus-types';
 import { Seat } from '../../models/seat.model';
 import { MatCardModule } from '@angular/material/card';
+import { Trip } from '../../models/trip.model';
 
 @Component({
   selector: 'app-seat-map',
@@ -14,28 +15,41 @@ import { MatCardModule } from '@angular/material/card';
   host: { ngSkipHydration: 'true' },
 })
 export class SeatMapComponent implements OnInit {
+  @Input() trip: Trip = {} as Trip;
   busInformation = signal<Bus>(busMock[0]);
 
   seatMap = computed(() => {
     let seatMapDisplay = ``;
-    if (this.busInformation().type === BusType.NORMAL) {
-      this.createNormalMapSeat('floorBelow');
-    } else if (this.busInformation().type === BusType.DOUBLE_DECKER) {
-      this.createNormalMapSeat('floorBelow');
-      this.createNormalMapSeat('floorUpper');
-    } else {
-
+    if(this.trip){
+      if (this.trip.type === BusType.NORMAL) {
+        this.createNormalMapSeat('floorBelow');
+      } else if (this.trip.type === BusType.DOUBLE_DECKER) {
+        this.createNormalMapSeat('floorBelow');
+        this.createNormalMapSeat('floorUpper');
+      } else {
+        this.createNormalMapSeat('floorBelow');
+      }
+    }else{
+      return ''
     }
+    
     return seatMapDisplay;
   })
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) {
 
   }
+
   ngOnInit(): void {
-    if (this.busInformation().type === BusType.NORMAL) {
+    // console.log(console.log("[Seat map]", this.trip));
+    const { type, seats, ...other } = this.trip;
+    console.log('seat',seats, 'type', type);
+
+    // this.busInformation.set(this.)
+
+    if (type === BusType.NORMAL) {
       this.busInformation().seats['floorBelow'] = this.rebuildDisplaySeatMap('floorBelow');
-    } else if (this.busInformation().type === BusType.DOUBLE_DECKER) {
+    } else if (type === BusType.DOUBLE_DECKER) {
       this.busInformation().seats['floorBelow'] = this.rebuildDisplaySeatMap('floorBelow');
       this.busInformation().seats['floorUpper'] = this.rebuildDisplaySeatMap('floorUpper');
     } else {
@@ -49,11 +63,11 @@ export class SeatMapComponent implements OnInit {
   }
 
   createNormalMapSeat(floor: string): void {
-    let seats = this.busInformation().seats;
+    let seats = this.trip.seats;
     const seatMapElement = this.elementRef.nativeElement.querySelector('#seat-map');
-    
+
     const seatMapDiv = this.renderer.createElement("div");
-    
+
     const title = this.setTitleForSeatMap(floor);
     seatMapDiv.appendChild(title);
 
@@ -82,7 +96,7 @@ export class SeatMapComponent implements OnInit {
 
       seatMapDiv?.appendChild(tr);
     }
-  seatMapElement?.appendChild(seatMapDiv);
+    seatMapElement?.appendChild(seatMapDiv);
 
   }
 
@@ -112,7 +126,7 @@ export class SeatMapComponent implements OnInit {
 
   createDynamicButton(seat: Seat): ElementRef {
     let button = this.renderer.createElement('button');
-    button.className = "seat__map-seat"
+    button.className = "seat__map-seat";
     button.innerText = `${seat.id}`;
     button.id = `seat-${seat.id}`; // Ensure each button has a unique ID
     button.addEventListener('click', () => this.handleButtonClick(seat.id));

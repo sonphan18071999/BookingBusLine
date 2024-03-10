@@ -6,6 +6,7 @@ import { AppState } from '../../store/app-state';
 import { Store } from '@ngrx/store';
 import { currentTripSelected } from '../../store/selectors/trip.selector';
 import { take } from 'rxjs/operators';
+import { Trip } from '../../models/trip.model';
 
 @Component({
   selector: 'app-selected-trip',
@@ -16,7 +17,7 @@ import { take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectedTripComponent implements OnInit {
-  currentTrip: any;
+  currentTrip = {} as Trip;
 
   constructor(protected store: Store<AppState>) {
   }
@@ -24,7 +25,7 @@ export class SelectedTripComponent implements OnInit {
   ngOnInit(): void {
     this.store.select(currentTripSelected)
       .pipe(take(1))
-      .subscribe(trip => {
+      .subscribe((trip: Trip) => {
         this.currentTrip = trip;
       });
   }
