@@ -8,11 +8,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { loginReducer } from './store/reducers/login.reducer';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { updateTicketsReducer } from './store/reducers/update-tickets.reducer';
+import { tripReducer } from './store/reducers/trip.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync('noop'),
-    provideStore(),
-    provideState({ name: 'user', reducer: loginReducer }), 
-    provideState({ name: 'tickets', reducer: updateTicketsReducer }),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })]
+  provideStore(),
+  provideState({ name: 'user', reducer: loginReducer }),
+  provideState({ name: 'tickets', reducer: updateTicketsReducer }),
+  provideState({ name: 'tripSelected', reducer: tripReducer }),
+  provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })]
 };

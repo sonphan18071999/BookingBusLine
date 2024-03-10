@@ -3,6 +3,7 @@ import { BusType } from "../../enums/bus-types";
 import { Trip } from "../../models/trip.model";
 import * as TripActions from '../actions/trip.action';
 
+
 export const initialTripState: Trip = {
     id: "",
     busId: "",
@@ -15,7 +16,9 @@ export const initialTripState: Trip = {
     licensePlate: ""
 };
 
-export const loginReducer = createReducer(
+export const tripReducer = createReducer(
     initialTripState,
-    on(TripActions.saveTripInformation, (state, trip) => ({ ...state, trip: { ...trip } }))
+    on(TripActions.saveTripInformation, (state, { currentTrip }) => {
+        return { ...state, ...currentTrip }
+    })
 );

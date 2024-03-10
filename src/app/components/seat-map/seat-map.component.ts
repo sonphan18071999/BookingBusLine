@@ -38,7 +38,6 @@ export class SeatMapComponent implements OnInit {
     } else if (this.busInformation().type === BusType.DOUBLE_DECKER) {
       this.busInformation().seats['floorBelow'] = this.rebuildDisplaySeatMap('floorBelow');
       this.busInformation().seats['floorUpper'] = this.rebuildDisplaySeatMap('floorUpper');
-
     } else {
 
     }

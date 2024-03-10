@@ -12,7 +12,7 @@ import { busMock } from '../../../shared/mocks/bus-mock.data';
 import { Bus } from '../../../models/bus.model';
 import { Trip } from '../../../models/trip.model';
 import { Store } from '@ngrx/store';
-import { currentTripSelected } from '../../../store/selectors/trip.selector';
+import { saveTripInformation } from '../../../store/actions/trip.action';
 
 @Component({
   selector: 'app-trip-information',
@@ -30,13 +30,11 @@ export class TripInformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildTrips();
-    console.log(this.trips())
   }
 
   selectTrip(tripId: string = "mx4ux"): void {
-    // console.log('id selected', tripId)
-    let selectedTrip = this.trips().filter((trip)=>trip.id === tripId)[0];
-    this.store.dispatch(selectedTrip);
+    let selectedTrip = this.trips().filter((trip) => trip.id === tripId)[0];
+    this.store.dispatch(saveTripInformation({ currentTrip: selectedTrip }));
     this.router.navigate([`/selected-trip/${tripId}`])
   }
 
@@ -61,9 +59,3 @@ export class TripInformationComponent implements OnInit {
     this.trips.set(trips);
   }
 }
-
-type PropertiesOfType<T, U> = {
-  [K in keyof T]: T[K] extends U ? K : never;
-}[keyof T];
-
-
