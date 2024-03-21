@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Input, OnInit, Renderer2, Signal, computed, signal } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnInit, Renderer2, Signal, ViewEncapsulation, computed, signal } from '@angular/core';
 import { Bus } from '../../models/bus.model';
 import { busMock } from '../../shared/mocks/bus-mock.data';
 import { BusType } from '../../enums/bus-types';
@@ -12,15 +12,16 @@ import { Trip } from '../../models/trip.model';
   imports: [MatCardModule],
   templateUrl: './seat-map.component.html',
   styleUrl: './seat-map.component.scss',
-  host: { ngSkipHydration: 'true' },
+  host: { ngSkipHydration: 'true' }
 })
 export class SeatMapComponent implements OnInit {
   @Input() trip: Trip = {} as Trip;
   busInformation = signal<Bus>(busMock[0]);
+  selectedSeats = [] as Seat[];
 
   seatMap = computed(() => {
     let seatMapDisplay = ``;
-    if(this.trip){
+    if (Object.values(this.trip.seats).length) {
       if (this.trip.type === BusType.NORMAL) {
         this.createNormalMapSeat('floorBelow');
       } else if (this.trip.type === BusType.DOUBLE_DECKER) {
@@ -29,10 +30,10 @@ export class SeatMapComponent implements OnInit {
       } else {
         this.createNormalMapSeat('floorBelow');
       }
-    }else{
+    } else {
       return ''
     }
-    
+
     return seatMapDisplay;
   })
 
@@ -42,28 +43,59 @@ export class SeatMapComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log(console.log("[Seat map]", this.trip));
-    const { type, seats, ...other } = this.trip;
-    console.log('seat',seats, 'type', type);
-
-    // this.busInformation.set(this.)
-
-    if (type === BusType.NORMAL) {
-      this.busInformation().seats['floorBelow'] = this.rebuildDisplaySeatMap('floorBelow');
-    } else if (type === BusType.DOUBLE_DECKER) {
-      this.busInformation().seats['floorBelow'] = this.rebuildDisplaySeatMap('floorBelow');
-      this.busInformation().seats['floorUpper'] = this.rebuildDisplaySeatMap('floorUpper');
-    } else {
-
+    if (Object.values(this.trip).length) {
+      const { type, seats, ...other } = this.trip;
+      // console.log('seat', seats, 'type', type);
+      if (type === BusType.NORMAL) {
+        this.busInformation().seats['floorBelow'] = this.rebuildDisplaySeatMap('floorBelow');
+      } else if (type === BusType.DOUBLE_DECKER) {
+        this.busInformation().seats['floorBelow'] = this.rebuildDisplaySeatMap('floorBelow');
+        this.busInformation().seats['floorUpper'] = this.rebuildDisplaySeatMap('floorUpper');
+      } else {
+      }
     }
   }
 
-  handleButtonClick(buttonIndex: string) {
-    console.log(`Button ${buttonIndex} clicked`);
-    // Your button click logic here
+  handleButtonClick(seat: Seat) {
+    let seatEl = document.getElementById(`seat-${seat.id}`,);
+    let isExisted = this.selectedSeats.some(seatItem => seatItem.id === seat.id);
+
+    if (isExisted) {
+      let newSeats = this.switchSeatOccupyState(this.trip.seats, seat);
+      this.selectedSeats = newSeats;
+
+      //Remove exist item
+      let seatIndexFound = this.selectedSeats.findIndex(seatItem => seatItem.id === seat.id);
+      if (seatIndexFound !== -1) {
+        this.selectedSeats.splice(seatIndexFound, 1);
+      }
+
+      //Add style inactive
+      this.renderer.removeClass(seatEl, 'active');
+
+    } else {
+      let a = this.switchSeatOccupyState(this.trip.seats, seat);
+      // console.log('seat selected', a);
+      this.selectedSeats.push(seat);
+
+      //Add style active
+      this.renderer.addClass(seatEl, 'active');
+    }
+  }
+
+  switchSeatOccupyState(currentSeats: { [floor: string]: Seat[] }, seatSelected: Seat): Seat[] {
+    return Object.values(currentSeats).flat().map(seatItem => {
+      if (seatItem.id === seatSelected.id) {
+        const modifiedSeatItem = { ...seatItem };
+        modifiedSeatItem.isOccupied = !seatItem.isOccupied;
+        return modifiedSeatItem;
+      }
+      return seatItem;
+    })
   }
 
   createNormalMapSeat(floor: string): void {
-    let seats = this.trip.seats;
+    let seats = this.trip?.seats;
     const seatMapElement = this.elementRef.nativeElement.querySelector('#seat-map');
 
     const seatMapDiv = this.renderer.createElement("div");
@@ -86,7 +118,6 @@ export class SeatMapComponent implements OnInit {
         if (j === 1) {
           tr.appendChild(this.emptyDiv());
           count++;
-
         }
 
         td.appendChild(button);
@@ -113,7 +144,6 @@ export class SeatMapComponent implements OnInit {
   }
 
   createUpperMapSeat(): void {
-
   }
 
   emptyDiv(): ElementRef {
@@ -128,8 +158,15 @@ export class SeatMapComponent implements OnInit {
     let button = this.renderer.createElement('button');
     button.className = "seat__map-seat";
     button.innerText = `${seat.id}`;
-    button.id = `seat-${seat.id}`; // Ensure each button has a unique ID
-    button.addEventListener('click', () => this.handleButtonClick(seat.id));
+    button.id = `seat-${seat.id}`;
+    this.renderer.listen(button, 'click', () => {
+      this.handleButtonClick(seat)
+    });
+
+    if (seat.isOccupied) {
+      this.renderer.addClass(button, 'inactive');
+      button.disabled = true;
+    }
     return button;
   }
 
