@@ -1,18 +1,17 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal, effect, WritableSignal } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { TripTimeDurationComponent } from './trip-time-duration/trip-time-duration.component';
-import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
-import { BusRoute } from '../../../models/routes.model';
-import { busRoutesMock } from '../../../shared/mocks/bus-routes.mock';
-import { GetAvailableSeatPipe } from '../../../cores/pipes/get-available-seat.pipe';
-import { GetMinSeatPricePipe } from '../../../cores/pipes/get-min-seat-price.pipe';
-import { busMock } from '../../../shared/mocks/bus-mock.data';
-import { Bus } from '../../../models/bus.model';
-import { Trip } from '../../../models/trip.model';
-import { Store } from '@ngrx/store';
-import { saveTripInformation } from '../../../store/actions/trip.action';
+import {CommonModule} from '@angular/common';
+import {Component, OnInit, signal} from '@angular/core';
+import {MatCardModule} from '@angular/material/card';
+import {TripTimeDurationComponent} from './trip-time-duration/trip-time-duration.component';
+import {MatButtonModule} from '@angular/material/button';
+import {Router} from '@angular/router';
+import {BusRoute} from '../../../models/routes.model';
+import {busRoutesMock} from '../../../shared/mocks/bus-routes.mock';
+import {GetAvailableSeatPipe} from '../../../cores/pipes/get-available-seat.pipe';
+import {GetMinSeatPricePipe} from '../../../cores/pipes/get-min-seat-price.pipe';
+import {busMock} from '../../../shared/mocks/bus-mock.data';
+import {Bus} from '../../../models/bus.model';
+import {Trip} from '../../../models/trip.model';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-trip-information',
@@ -26,7 +25,8 @@ export class TripInformationComponent implements OnInit {
   buses = signal<Bus[]>(busMock);
   trips = signal<Trip[]>([]);
 
-  constructor(protected router: Router, protected store: Store) { }
+  constructor(protected router: Router, protected store: Store) {
+  }
 
   ngOnInit(): void {
     this.buildTrips();
@@ -34,7 +34,7 @@ export class TripInformationComponent implements OnInit {
 
   selectTrip(tripId: string = "mx4ux"): void {
     let selectedTrip = this.trips().filter((trip) => trip.id === tripId)[0];
-    this.store.dispatch(saveTripInformation({ currentTrip: selectedTrip }));
+    // this.store.dispatch(saveTripInformation({ currentTrip: selectedTrip }));
     this.router.navigate([`/selected-trip/${tripId}`])
   }
 
@@ -46,7 +46,7 @@ export class TripInformationComponent implements OnInit {
       let busFound = this.buses().filter(bus => bus.id === route.busId)[0]
 
       if (busFound) {
-        const { seats, id, ...busWithoutSeats } = busFound;
+        const {seats, id, ...busWithoutSeats} = busFound;
         let removedSeatsDefault = busWithoutSeats;
 
         tripInformation = {

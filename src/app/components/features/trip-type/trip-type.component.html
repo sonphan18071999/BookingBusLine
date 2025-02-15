@@ -1,4 +1,16 @@
-<mat-radio-group aria-label="Select an option" [(ngModel)]="tripType" (change)="onTripTypeChange($event)">
-    <mat-radio-button value="One way">One way</mat-radio-button>
-    <mat-radio-button value="Round trip">Round trip</mat-radio-button>
-</mat-radio-group>
+<div class="trip-type__container">
+  <div>
+    <label>
+      <input (click)="onTripTypeChange($event)" [(ngModel)]="tripType" name="tripType" type="radio"
+             value="One way">
+      One way
+    </label>
+  </div>
+  <div>
+    <label>
+      <input (click)="onTripTypeChange($event)" [(ngModel)]="tripType" name="tripType" type="radio"
+             value="Round trip">
+      Round trip
+    </label>
+  </div>
+</div>

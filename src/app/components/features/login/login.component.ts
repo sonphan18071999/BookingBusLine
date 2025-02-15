@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { login } from '../../../store/actions/login-page.actions';
+import {Component} from '@angular/core';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +10,10 @@ import { login } from '../../../store/actions/login-page.actions';
 })
 export class LoginComponent {
 
-  constructor(protected store: Store) { }
+  constructor(protected store: Store) {
+  }
 
-  onSubmit(username: string, password: string):void {
-    this.store.dispatch(login({ username: username, password: password }));
+  onSubmit(username: string, password: string): void {
+    // this.store.dispatch(login({ username: username, password: password }));
   }
 }

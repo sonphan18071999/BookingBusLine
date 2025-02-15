@@ -1,13 +1,7 @@
-import { TripType } from "../enums/trip-type";
+import {PassengerDetails} from "./passenger-details";
+import {TripInformation} from "./trip-information";
 
 export interface BusTicket {
-    id: string;
-    passengerName: string;
-    departureCity?: string;
-    destinationCity?: string;
-    departureTime?: string;
-    arrivalTime?: string;
-    ticketPrice?: string;
-    seatNumber?: string;
-    tripType: TripType; 
+  trip: TripInformation;
+  passengers: PassengerDetails[];
 }

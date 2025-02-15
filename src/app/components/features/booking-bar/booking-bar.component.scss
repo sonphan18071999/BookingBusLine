@@ -1,28 +1,52 @@
 .booking__bar {
-    max-width: 1128px !important;
-    display: block;
-    margin: auto;
-    margin-top: 5rem;
-    background: #fff;
-    border: 1px solid rgba(239, 82, 34, .6);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    outline: 8px solid rgba(170, 46, 8, .1);
-    
-    &--grid-default {
-        display: flex;
-        gap: 10px;
+  background: #fff;
+  border: 1px solid rgba(239, 82, 34, .6);
+  border-radius: 1rem;
+  padding: 1.5rem;
 
-        .stretch{
-            width: 100%;
-        }
-        
-        .grid-stretch{
-            width: calc(100% - 20px);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
+  .booking__bar--container {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+    overflow-x: scroll;
+  }
+
+  .image-button {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    background-color: transparent;
+    height: 2.5rem;
+    border-radius: 2rem;
+    border: 1px solid transparent;
+    padding: 0.5rem 1rem;
+  }
+
+  .image-button:hover {
+    cursor: pointer;
+    border: 1px solid #E6E8E9;
+
+  }
+}
+
+app-ticket-count {
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .image-button {
+    transform: rotate(-90deg);
+  }
+
+  .booking__bar {
+    .booking__bar--container {
+      flex-direction: row;
     }
+  }
+}
 
-    
+app-origin, app-destination, app-departure-date, app-ticket-count, app-return-date {
+  width: 100%;
 }

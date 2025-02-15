@@ -25,7 +25,8 @@ export const busMock: Bus[] = [
                 { id: "A17" },
                 { id: "A18" },
                 { id: "A19" },
-                { id: "A20" }
+                { id: "A20" },
+                { id: "A21" }
             ],
             floorUpper: [
                 { id: "B1" },
@@ -47,8 +48,8 @@ export const busMock: Bus[] = [
                 { id: "B17" },
                 { id: "B18" },
                 { id: "B19" },
-                { id: "B20" }
-
+                { id: "B20" },
+                { id: "B21" }
             ]
         },
         type: BusType.DOUBLE_DECKER,
@@ -77,7 +78,8 @@ export const busMock: Bus[] = [
                 { id: "A17" },
                 { id: "A18" },
                 { id: "A19" },
-                { id: "A20" }
+                { id: "A20" },
+                { id: "A21" }
             ]
         },
         type: BusType.NORMAL,

@@ -1,4 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
+$light-grey: #E6E8E9;
+$dark-grey: #F5F6F6;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  width: calc(100% - 10rem);
+  margin: auto;
+  margin-top: 0.5rem;
+}
+
+:root {
+  --mdc-theme-primary: #1976d2;
+  --mdc-theme-secondary: #ffab00;
+  --mdc-theme-error: #d32f2f;
+}
+
+//Define buttons
+.p-btn {
+  width: 100%;
+  background-color: #0064D2;
+  color: white;
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.p-btn:hover {
+  cursor: pointer;
+  background-color: #0051A3;
+}
+
+//Responsive
+@media (min-width: 768px) {
+  .p-btn {
+    width: 10rem;
+  }
+}
+
+
+//Library components
+mat-form-field {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.mat-mdc-text-field-wrapper {
+  border: 1px solid grey;
+  border-radius: 0.5rem;
+}
+
+.mdc-text-field {
+  border-radius: 0.5rem !important;
+  border: 1px solid $light-grey;
+  background-color: $dark-grey;
+}
+
+.mdc-line-ripple {
+  display: none;
+}
+
+.mat-mdc-card {
+  border: 1px solid $light-grey !important;
+  box-shadow: none !important;
+}

@@ -29,7 +29,8 @@ export const busRoutesMock: BusRoute[] = [
                 { id: "A17", isOccupied: false, price: "20" },
                 { id: "A18", isOccupied: false, price: "20" },
                 { id: "A19", isOccupied: false, price: "20" },
-                { id: "A20", isOccupied: false, price: "20" }
+                { id: "A20", isOccupied: false, price: "20" },
+                { id: "A21", isOccupied: false, price: "20" }
             ],
             floorUpper: [
                 { id: "B1", isOccupied: false, price: "20" },
@@ -51,8 +52,8 @@ export const busRoutesMock: BusRoute[] = [
                 { id: "B17", isOccupied: false, price: "20" },
                 { id: "B18", isOccupied: false, price: "20" },
                 { id: "B19", isOccupied: false, price: "20" },
-                { id: "B20", isOccupied: false, price: "20" }
-
+                { id: "B20", isOccupied: false, price: "20" },
+                { id: "B21", isOccupied: false, price: "20" }
             ]
         },
     },
@@ -84,7 +85,8 @@ export const busRoutesMock: BusRoute[] = [
                 { id: "A17", isOccupied: false, price: "20" },
                 { id: "A18", isOccupied: false, price: "20" },
                 { id: "A19", isOccupied: false, price: "20" },
-                { id: "A20", isOccupied: false, price: "20" }
+                { id: "A20", isOccupied: false, price: "20" },
+                { id: "A21", isOccupied: false, price: "20" }
             ],
             floorUpper: [
                 { id: "B1", isOccupied: false, price: "20" },

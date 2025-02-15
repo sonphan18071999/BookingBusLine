@@ -1,7 +1,7 @@
-import { Trip } from "../models/trip.model";
-import { TicketsState } from "./reducers/update-tickets.reducer";
+import {Trip} from "../models/trip.model";
+import {BusTicket} from "../models/bus-ticket.model";
 
 export interface AppState {
-    tickets: TicketsState;
-    tripSelected: Trip
+  ticket: BusTicket;
+  tripSelected?: Trip
 }

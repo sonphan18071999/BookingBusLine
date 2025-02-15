@@ -1,15 +1,20 @@
 <mat-card class="booking__bar">
-    <app-trip-type />
-    <div class="booking__bar--grid-default">
-        <app-origin />
-        <app-destination />
-        <app-departure-date />
-        <div class="stretch" [ngClass]="{'grid-stretch': !isOneWay()}">
-            @if(!isOneWay()){
-            <app-return-date />
-            }
-            <app-ticket-count/>
-        </div>
+  <app-trip-type/>
+  <div class="booking__bar--container">
+    <app-origin/>
+    <button (click)="onButtonClick()" class="image-button">
+      <img alt="Swap icon" class="button-image" height="16px" src="assets/icons/swap_icon.svg" width="16px"/>
+    </button>
+    <app-destination/>
+    <app-departure-date/>
+    <div *ngIf="tripType === TripType.ROUND_TRIP">
+      <app-return-date/>
+
     </div>
-    <button mat-stroked-button (click)="goToSearchPage()">Search trip</button>
+    <!--    @if (tripType === TripType.ROUND_TRIP) {-->
+    <!--      <app-return-date/>-->
+    <!--    }-->
+    <app-ticket-count/>
+  </div>
+  <button (click)="goToSearchPage()" class="p-btn">Search trips</button>
 </mat-card>

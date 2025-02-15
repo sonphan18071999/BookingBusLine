@@ -1,9 +1,8 @@
-.search__result{
-    width: 80%;
-    max-width: 1128px !important;
-    margin: auto;
-    margin-top: 2rem;
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    gap: 20px;
+.search__result {
+  width: 100%;
+  margin: auto;
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 20px;
 }

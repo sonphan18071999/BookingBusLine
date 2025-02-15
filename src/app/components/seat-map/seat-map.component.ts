@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Input, OnInit, Renderer2, Signal, ViewEncapsulation, computed, signal } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Renderer2, computed, signal } from '@angular/core';
 import { Bus } from '../../models/bus.model';
 import { busMock } from '../../shared/mocks/bus-mock.data';
 import { BusType } from '../../enums/bus-types';
@@ -42,10 +42,9 @@ export class SeatMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log(console.log("[Seat map]", this.trip));
     if (Object.values(this.trip).length) {
       const { type, seats, ...other } = this.trip;
-      // console.log('seat', seats, 'type', type);
+
       if (type === BusType.NORMAL) {
         this.busInformation().seats['floorBelow'] = this.rebuildDisplaySeatMap('floorBelow');
       } else if (type === BusType.DOUBLE_DECKER) {
@@ -64,21 +63,14 @@ export class SeatMapComponent implements OnInit {
       let newSeats = this.switchSeatOccupyState(this.trip.seats, seat);
       this.selectedSeats = newSeats;
 
-      //Remove exist item
       let seatIndexFound = this.selectedSeats.findIndex(seatItem => seatItem.id === seat.id);
       if (seatIndexFound !== -1) {
         this.selectedSeats.splice(seatIndexFound, 1);
       }
-
-      //Add style inactive
       this.renderer.removeClass(seatEl, 'active');
-
     } else {
       let a = this.switchSeatOccupyState(this.trip.seats, seat);
-      // console.log('seat selected', a);
       this.selectedSeats.push(seat);
-
-      //Add style active
       this.renderer.addClass(seatEl, 'active');
     }
   }
