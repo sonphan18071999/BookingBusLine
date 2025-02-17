@@ -5,7 +5,7 @@ import {routes} from './app.routes';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {provideStoreDevtools} from '@ngrx/store-devtools';
-import {provideHttpClient, withInterceptors} from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {customInterceptor} from './interceptors/custom.interceptor';
 import {errorHandlingInterceptor} from './interceptors/error-handling-interceptor.interceptor';
 import {provideStore} from "@ngrx/store";
