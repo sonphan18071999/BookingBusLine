@@ -1,10 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {TripType} from '../../../enums/trip-type';
-import {AppState} from '../../../store/app-state';
-import {Store} from '@ngrx/store';
-import {TripService} from '../../../services/trips.service';
 import {Subject} from 'rxjs';
 
 @Component({
@@ -15,11 +12,13 @@ import {Subject} from 'rxjs';
   styleUrl: './trip-type.component.scss'
 })
 export class TripTypeComponent implements OnInit, OnDestroy {
+  @Output()
+  public onChangeTripType: EventEmitter<TripType> = new EventEmitter();
   public tripType: TripType = TripType.ONE_WAY;
   private unsubscribe$ = new Subject<void>();
 
-  constructor(protected store: Store<AppState>,
-              protected tripService: TripService) {
+
+  constructor() {
   }
 
   ngOnInit(): void {
@@ -27,20 +26,7 @@ export class TripTypeComponent implements OnInit, OnDestroy {
 
   public onTripTypeChange(event: Event): void {
     const selectedValue = (event.target as HTMLInputElement).value as TripType;
-    // const currentTicket$ = this.store.select(selectTicket);
-    //
-    // currentTicket$.subscribe(busTicket => {
-    //   if (!busTicket) return;
-    //
-    //   const newTicket = {
-    //     ...busTicket,
-    //     trip: {
-    //       ...busTicket.trip,
-    //       tripType: selectedValue,
-    //     }
-    //   };
-    //   this.store.dispatch(updateTicket({ticket: newTicket}));
-    // });
+    this.onChangeTripType.emit(selectedValue);
   }
 
   ngOnDestroy(): void {

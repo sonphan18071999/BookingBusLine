@@ -1,6 +1,6 @@
-<div class="origin">
-    <p>Destination</p>
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="Ex. Pizza" value="Da Lat">
-    </mat-form-field>
+<div class="destination">
+  <p>Destination</p>
+  <mat-form-field class="example-full-width">
+    <input (change)="handleDestinationChange($event)" matInput placeholder="Ex. Desitination" value="Da Lat">
+  </mat-form-field>
 </div>

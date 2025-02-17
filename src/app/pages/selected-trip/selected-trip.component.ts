@@ -4,8 +4,6 @@ import {
   SelectedTripCardInfoComponent
 } from '../../components/selected-trip-card-info/selected-trip-card-info.component';
 import {PaymentFillInFormComponent} from '../../components/payment-fill-in-form/payment-fill-in-form.component';
-import {AppState} from '../../store/app-state';
-import {Store} from '@ngrx/store';
 import {Trip} from '../../models/trip.model';
 
 @Component({
@@ -19,7 +17,7 @@ import {Trip} from '../../models/trip.model';
 export class SelectedTripComponent implements OnInit {
   currentTrip = {} as Trip;
 
-  constructor(protected store: Store<AppState>) {
+  constructor() {
   }
 
   ngOnInit(): void {

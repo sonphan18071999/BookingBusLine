@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
-import { Subject } from 'rxjs';
-import { TripService } from '../../../services/trips.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatInputModule} from '@angular/material/input';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-return-date',
@@ -13,9 +12,10 @@ import { TripService } from '../../../services/trips.service';
 export class ReturnDateComponent implements OnInit, OnDestroy {
   unsubcribe$: Subject<boolean> = new Subject()
 
-  constructor(protected tripService: TripService) { }
+  constructor() {
+  }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
   }
 
   ngOnDestroy(): void {

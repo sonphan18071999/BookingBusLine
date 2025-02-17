@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {TripTypeComponent} from '../trip-type/trip-type.component';
 import {OriginComponent} from '../origin/origin.component';
@@ -8,13 +8,11 @@ import {ReturnDateComponent} from '../return-date/return-date.component';
 import {TicketCountComponent} from '../ticket-count/ticket-count.component';
 import {TripType} from '../../../enums/trip-type';
 import {Subject} from 'rxjs';
-import {TripService} from '../../../services/trips.service';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {Router} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {Store} from "@ngrx/store";
-import {AppState} from "../../../store/app-state";
+import {BusTicketBuilderService} from "../../../services/bus-ticket.service";
 
 @Component({
   selector: 'app-booking-bar',
@@ -33,7 +31,6 @@ import {AppState} from "../../../store/app-state";
   ],
   templateUrl: './booking-bar.component.html',
   styleUrl: './booking-bar.component.scss',
-  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('fadeInOut', [
       state(
@@ -49,24 +46,15 @@ import {AppState} from "../../../store/app-state";
 })
 export class BookingBarComponent implements OnInit {
   public unsubscribe$: Subject<boolean> = new Subject();
-  public tripType: TripType = TripType.ONE_WAY;
-  // public busTicket = selectCurrentTicket();
-  protected readonly TripType = TripType;
+  public isRoundTrip: boolean = false;
+  private busTicketBuilderService = inject(BusTicketBuilderService);
 
   public constructor(
-    protected tripService: TripService,
     protected router: Router,
-    public store: Store<AppState>
   ) {
   }
 
   ngOnInit(): void {
-    // this.store.select(selectTicket)
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe((ticket: BusTicket) => {
-    //     this.tripType = ticket.trip?.tripType;
-    //     console.log("trip type change", ticket)
-    //   });
   }
 
   ngOnDestroy(): void {
@@ -79,5 +67,24 @@ export class BookingBarComponent implements OnInit {
   }
 
   public onButtonClick() {
+  }
+
+  public handleOriginChange(val: string): void {
+    this.busTicketBuilderService.setOrigin(val);
+  }
+
+  public handleTripTypeChange(type: TripType): void {
+    this.busTicketBuilderService.setTripType(type);
+    // this.tripType = this.busTicketBuilderService.tripType()
+    console.log("tupe", type)
+    this.isRoundTrip = type === TripType.ROUND_TRIP;
+  }
+
+  public handleDestinationChange(val: string): void {
+    this.busTicketBuilderService.setDestination(val);
+  }
+
+  public handleDepartureDateChange(date: string): void {
+    this.busTicketBuilderService.setDepartureDate(date)
   }
 }

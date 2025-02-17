@@ -1,19 +1,19 @@
 <mat-card class="booking__bar">
-  <app-trip-type/>
+  <app-trip-type (onChangeTripType)="handleTripTypeChange($event)"/>
   <div class="booking__bar--container">
-    <app-origin/>
+    <app-origin (onChangeOrigin)="handleOriginChange($event)"/>
     <button (click)="onButtonClick()" class="image-button">
       <img alt="Swap icon" class="button-image" height="16px" src="assets/icons/swap_icon.svg" width="16px"/>
     </button>
-    <app-destination/>
-    <app-departure-date/>
-    <div *ngIf="tripType === TripType.ROUND_TRIP">
-      <app-return-date/>
+    <app-destination (onChangeDestination)="handleDestinationChange($event)"/>
 
-    </div>
-    <!--    @if (tripType === TripType.ROUND_TRIP) {-->
-    <!--      <app-return-date/>-->
-    <!--    }-->
+    <ng-container *ngIf="isRoundTrip; else oneWay">
+      <app-return-date></app-return-date>
+    </ng-container>
+    <ng-template #oneWay>
+      <app-departure-date (onChangeDepartureDate)="handleDepartureDateChange($event)"/>
+    </ng-template>
+
     <app-ticket-count/>
   </div>
   <button (click)="goToSearchPage()" class="p-btn">Search trips</button>
