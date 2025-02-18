@@ -1,6 +1,7 @@
 <div class="destination">
   <p>Destination</p>
   <mat-form-field class="example-full-width">
-    <input (change)="handleDestinationChange($event)" matInput placeholder="Ex. Desitination" value="Da Lat">
+    <input (ngModelChange)="handleDestinationChange($event)" [(ngModel)]="destination" matInput
+           placeholder="Ex. Desitination">
   </mat-form-field>
 </div>

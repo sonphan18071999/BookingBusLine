@@ -1,6 +1,6 @@
 <div class="origin">
   <p>Origin</p>
   <mat-form-field>
-    <input (change)="handleOrigin($event)" matInput placeholder="Ex: Departation" value="">
+    <input (ngModelChange)="handleOrigin($event)" [(ngModel)]="origin" matInput placeholder="Ex: Departation">
   </mat-form-field>
 </div>

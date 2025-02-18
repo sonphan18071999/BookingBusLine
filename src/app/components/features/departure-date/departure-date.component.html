@@ -1,6 +1,7 @@
-<div class="origin">
+<div class="departure-date">
   <p>Departure Date</p>
   <mat-form-field>
-    <input (change)="handleDepartureDateChange($event)" matInput type="date" value="Sai Gon">
+    <input (ngModelChange)="handleDepartureDateChange($event)" [(ngModel)]="departureDate"
+           matInput type="date">
   </mat-form-field>
 </div>

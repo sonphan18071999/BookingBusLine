@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {TripTypeComponent} from '../trip-type/trip-type.component';
 import {OriginComponent} from '../origin/origin.component';
@@ -11,8 +11,9 @@ import {Subject} from 'rxjs';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {Router} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {BusTicketBuilderService} from "../../../services/bus-ticket.service";
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {MatError, MatFormField} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-booking-bar',
@@ -28,33 +29,39 @@ import {BusTicketBuilderService} from "../../../services/bus-ticket.service";
     TicketCountComponent,
     MatButtonModule,
     NgOptimizedImage,
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    MatError,
   ],
   templateUrl: './booking-bar.component.html',
   styleUrl: './booking-bar.component.scss',
-  animations: [
-    trigger('fadeInOut', [
-      state(
-        'void',
-        style({
-          opacity: 0, // Start with opacity 0 (invisible)
-        })
-      ),
-      transition('void <=> *', animate('500ms ease-in-out')), // Fade in and out
-    ]),
-  ],
 
 })
 export class BookingBarComponent implements OnInit {
   public unsubscribe$: Subject<boolean> = new Subject();
   public isRoundTrip: boolean = false;
-  private busTicketBuilderService = inject(BusTicketBuilderService);
+  public isSwapStation: boolean = false;
+  public formGroup: FormGroup = new FormGroup({});
+  protected readonly Validators = Validators;
 
   public constructor(
     protected router: Router,
+    private fb: FormBuilder
   ) {
   }
 
   ngOnInit(): void {
+    this.initFormGroup();
+  }
+
+  public initFormGroup() {
+    this.formGroup = this.fb.group({
+      tripType: new FormControl<TripType>(TripType.ONE_WAY, [Validators.required]),
+      departure: new FormControl('', [Validators.required]),
+      destination: new FormControl('', [Validators.required]),
+      departureDate: new FormControl('', [Validators.required])
+    });
   }
 
   ngOnDestroy(): void {
@@ -62,29 +69,34 @@ export class BookingBarComponent implements OnInit {
     this.unsubscribe$.complete();
   }
 
-  public goToSearchPage(): void {
-    this.router.navigate(['search-result']);
-  }
 
-  public onButtonClick() {
-  }
+  public onSwapStationChange(): void {
+    this.isSwapStation = !this.isSwapStation;
 
-  public handleOriginChange(val: string): void {
-    this.busTicketBuilderService.setOrigin(val);
+    const currentDeparture = this.formGroup.get('departure')?.value;
+    const currentDestination = this.formGroup.get('destination')?.value;
+    this.formGroup.patchValue({departure: currentDestination, destination: currentDeparture});
   }
 
   public handleTripTypeChange(type: TripType): void {
-    this.busTicketBuilderService.setTripType(type);
-    // this.tripType = this.busTicketBuilderService.tripType()
-    console.log("tupe", type)
-    this.isRoundTrip = type === TripType.ROUND_TRIP;
+    const roundTripActive = type === TripType.ROUND_TRIP;
+    this.isRoundTrip = roundTripActive
+    const controlName = 'returnDate';
+
+    if (roundTripActive) {
+      if (!this.formGroup.contains(controlName)) {
+        this.formGroup.addControl(controlName, new FormControl('', Validators.required));
+      }
+    } else {
+      if (this.formGroup.contains(controlName)) {
+        this.formGroup.removeControl(controlName);
+      }
+    }
   }
 
-  public handleDestinationChange(val: string): void {
-    this.busTicketBuilderService.setDestination(val);
-  }
-
-  public handleDepartureDateChange(date: string): void {
-    this.busTicketBuilderService.setDepartureDate(date)
+  public handleFormSubmit($event: Event): void {
+    this.formGroup.markAllAsTouched()
+    this.formGroup.updateValueAndValidity();
+    console.log('form group', this.formGroup)
   }
 }

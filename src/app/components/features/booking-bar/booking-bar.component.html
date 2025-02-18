@@ -1,20 +1,61 @@
 <mat-card class="booking__bar">
-  <app-trip-type (onChangeTripType)="handleTripTypeChange($event)"/>
-  <div class="booking__bar--container">
-    <app-origin (onChangeOrigin)="handleOriginChange($event)"/>
-    <button (click)="onButtonClick()" class="image-button">
-      <img alt="Swap icon" class="button-image" height="16px" src="assets/icons/swap_icon.svg" width="16px"/>
-    </button>
-    <app-destination (onChangeDestination)="handleDestinationChange($event)"/>
+  <form (submit)="handleFormSubmit($event)" [formGroup]="formGroup">
+    <app-trip-type (onChangeTripType)="handleTripTypeChange($event)" formControlName="tripType"/>
 
-    <ng-container *ngIf="isRoundTrip; else oneWay">
-      <app-return-date></app-return-date>
-    </ng-container>
-    <ng-template #oneWay>
-      <app-departure-date (onChangeDepartureDate)="handleDepartureDateChange($event)"/>
-    </ng-template>
+    <div class="booking__bar--container">
 
-    <app-ticket-count/>
-  </div>
-  <button (click)="goToSearchPage()" class="p-btn">Search trips</button>
+      <div class="origin">
+        <p>Origin</p>
+        <mat-form-field>
+          <input formControlName="departure" matInput placeholder="Ex: Departation">
+          <mat-error *ngIf="formGroup.get('departure')?.hasError('required')">
+            *Departure field is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <button (click)="onSwapStationChange()" class="image-button">
+        <img
+          [ngStyle]="{ transform: isSwapStation ? 'rotate(180deg)' : 'rotate(0deg)' }"
+          alt="Swap icon" class="button-image" height="16px"
+          src="assets/icons/swap_icon.svg"
+          width="16px"/>
+      </button>
+
+      <div class="destination">
+        <p>Destination</p>
+        <mat-form-field class="example-full-width">
+          <input formControlName="destination" matInput
+                 placeholder="Ex. Desitination">
+          <mat-error *ngIf="formGroup.get('destination')?.hasError('required')">
+            *Destination field is required
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <div class="departure-date">
+        <p>Departure Date</p>
+        <mat-form-field>
+          <input formControlName="departureDate"
+                 matInput type="date">
+        </mat-form-field>
+      </div>
+
+      <ng-container *ngIf="isRoundTrip;">
+        <div class="return__date">
+          <p>Return Date</p>
+          <mat-form-field>
+            <input formControlName="returnDate" matInput placeholder="Ex. Pizza" type="date">
+          </mat-form-field>
+        </div>
+      </ng-container>
+
+      <app-ticket-count/>
+    </div>
+    <div [ngStyle]="{'margin-top':'1rem'}">
+      <button class="p-btn" type="submit">Search trips</button>
+    </div>
+  </form>
+
 </mat-card>
