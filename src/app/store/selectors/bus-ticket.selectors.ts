@@ -1,7 +1,7 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {AppState} from "../reducers/bus-ticket.reducer";
+import {TicketState} from "../reducers/bus-ticket.reducer";
 
-export const appStateSelectors = createFeatureSelector<AppState>('busTicket');
+export const appStateSelectors = createFeatureSelector<TicketState>('busTicket');
 
 export const busTicketSelector = createSelector(
   appStateSelectors,

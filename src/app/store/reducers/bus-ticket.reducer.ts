@@ -3,20 +3,18 @@ import {BusTicket} from "../../models/bus-ticket.model";
 import {TripType} from "../../enums/trip-type";
 import {updateBusTicket} from "../actions/bus-ticket.actions";
 
-export interface AppState {
+export interface TicketState {
   ticket: BusTicket;
 }
 
-export const initialState: AppState = {
+export const initialTicketState: TicketState = {
   ticket: {
-    trip: {
-      tripType: TripType.ONE_WAY
-    }
+    tripType: TripType.ONE_WAY
   } as BusTicket,
 };
 
 export const busTicketReducer = createReducer(
-  initialState,
+  initialTicketState,
   on(updateBusTicket, (state, {ticket}) => ({
     ...state,
     ticket: ticket
