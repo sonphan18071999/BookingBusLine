@@ -1,3 +1,8 @@
 .search__filter {
   padding: 1rem !important;
+
+  .search__filter-header {
+    display: flex;
+    justify-content: space-between;
+  }
 }

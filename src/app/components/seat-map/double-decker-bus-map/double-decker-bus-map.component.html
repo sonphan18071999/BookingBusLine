@@ -18,7 +18,8 @@
           <button
             class="seat-btn"
             [class.occupied]="seat.isOccupied"
-            [title]="'Seat: ' + seat.id + ' | Price: $' + seat.price">
+            [title]="'Seat: ' + seat.id + ' | Price: $' + seat.price"
+            (click)="onSelectSeat(seat.id)">
             {{ seat.id }}
           </button>
           @if ((idx) % 4 === 1) {

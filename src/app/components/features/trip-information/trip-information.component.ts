@@ -1,5 +1,5 @@
 import {CommonModule, DOCUMENT} from '@angular/common';
-import {ChangeDetectorRef, Component, inject, Inject, OnInit, signal, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, OnInit, signal, ViewEncapsulation} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {TripTimeDurationComponent} from './trip-time-duration/trip-time-duration.component';
 import {MatButtonModule} from '@angular/material/button';
@@ -27,7 +27,6 @@ export class TripInformationComponent implements OnInit {
   public buses = signal<Bus[]>(busMock);
   public trips = signal<Trip[]>([]);
   public idSeatMapActive: string = ''
-  private cd = inject(ChangeDetectorRef);
 
   constructor(protected router: Router, protected store: Store, @Inject(DOCUMENT) private document: Document) {
   }
@@ -40,7 +39,7 @@ export class TripInformationComponent implements OnInit {
   buildTrips(): void {
     let trips = [] as Trip[];
 
-    this.busRoutes().forEach((route, ind) => {
+    this.busRoutes().forEach((route: BusRoute, ind: number) => {
       let tripInformation = {} as Trip;
       let busFound = this.buses().filter(bus => bus.id === route.busId)[0]
 
@@ -54,13 +53,10 @@ export class TripInformationComponent implements OnInit {
     })
 
     this.trips.set(trips);
-
   }
 
   public openSeatMap(tripId: string): void {
     this.idSeatMapActive = tripId;
-    this.cd.detectChanges(); // Ensure the view is updated
-
     this.scrollSeatMapIntoView(tripId);
   }
 

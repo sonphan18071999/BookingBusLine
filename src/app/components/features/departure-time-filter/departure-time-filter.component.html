@@ -1,9 +1,17 @@
-<div>
-    <p>Departure Time</p>
-    @for (item of departureTimes();track item.time) {
-    <div>
+<div class="time-filter__container">
+  <p class="filter__header">
+    <span>Departure Time</span>
+    <mat-icon>info</mat-icon>
+  </p>
+
+  <div class="filter__items">
+
+    @for (item of departureTimes(); track item.time) {
+      <div>
         <input type="checkbox" [value]=item.time [name]=item.time [id]="item.time" (click)="applyFilter(item)"/>
-        <label [for]=item.time>{{item.time}}</label>
-    </div>
+        <label [for]=item.time>{{ item.time }}</label>
+      </div>
     }
+  </div>
+
 </div>

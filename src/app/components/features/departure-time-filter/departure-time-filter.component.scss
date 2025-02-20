@@ -1,0 +1,17 @@
+.time-filter__container {
+  .filter__header {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+
+    mat-icon {
+      font-size: 13px;
+    }
+  }
+
+  .filter__items {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+  }
+}

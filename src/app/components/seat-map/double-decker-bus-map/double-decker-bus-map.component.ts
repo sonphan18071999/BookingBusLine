@@ -20,8 +20,9 @@ export class DoubleDeckerBusMapComponent implements OnInit {
   @Input()
   public seat: { [floor: string]: Seat[] } = {};
 
-  
   public seatDisplay: WritableSignal<FloorConfig[]> = signal<FloorConfig[]>([]);
+
+  // public seatService = inject(SeatService);
 
   ngOnInit(): void {
 
@@ -35,6 +36,9 @@ export class DoubleDeckerBusMapComponent implements OnInit {
         seats: this.seat['floorUpper'] || []
       }
     ]);
+  }
+
+  public onSelectSeat(id: string): void {
   }
 }
 

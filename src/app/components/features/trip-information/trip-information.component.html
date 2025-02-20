@@ -28,7 +28,7 @@
       </div>
 
       <div *ngIf="idSeatMapActive === item.id" [id]=item.id >
-        <app-seat-map [trip]="item" #seatMap/>
+        <app-seat-map [trip]="item" />
       </div>
     </mat-card>
   }
