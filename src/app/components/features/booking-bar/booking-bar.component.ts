@@ -103,4 +103,21 @@ export class BookingBarComponent implements OnInit {
     const busTicket: BusTicket = this.formGroup.value as BusTicket;
     this.ticketStore.dispatch(updateBusTicket({ticket: busTicket}));
   }
+
+  public handleSearchTrip(): void {
+    this.router.navigate(['search-result']);
+    setTimeout(() => {
+      document.querySelector("#search__result-section")?.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }, 100)
+  }
+
+  private scrollToElement(elementId: string): void {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({behavior: 'smooth', block: 'start'});
+    } else {
+      console.warn(`Element with ID ${elementId} not found.`);
+    }
+  }
+
 }

@@ -1,34 +1,35 @@
 <div class="trip__information">
-    @for( item of trips();track item.id){
+  @for (item of trips(); track item.id) {
     <mat-card class="trip">
-        <div class="trip__duration">
-            @if(item.arrivalTime && item.departureTime){
-            <app-trip-time-duration [busRoute]=item />
-            }
-            <p style="margin-left: 1rem;">
-                <i>{{item.type}}</i>
-            </p>
-            <div>
-                <p>{{item.seats | getAvailableSeat}} available seats</p>
-                <br />
-                <p>
-                    <b>
-                        from {{item.seats | getMinSeatPrice}} $
-                    </b>
-                </p>
-            </div>
+      <div class="trip__duration">
+        @if (item.arrivalTime && item.departureTime) {
+          <app-trip-time-duration [busRoute]=item/>
+        }
+        <p style="margin-left: 1rem;">
+          <i>{{ item.type }}</i>
+        </p>
+        <div>
+          <p>{{ item.seats | getAvailableSeat }} available seats</p>
+          <br/>
+          <p>
+            <b>
+              from {{ item.seats | getMinSeatPrice }} $
+            </b>
+          </p>
         </div>
-        <div class="trip__actions">
-            <div>
-                <button mat-stroked-button color="accent">Choose seat</button>
-                <button mat-stroked-button color="accent">Schedule</button>
-                <button mat-stroked-button color="accent">Transshipment</button>
-                <button mat-stroked-button color="accent">Policy</button>
-            </div>
-            <div>
-                <button mat-stroked-button color="primary" (click)="selectTrip(item.id)">Select trip</button>
-            </div>
+      </div>
+      <div class="trip__actions">
+        <div>
+          <button class="s-btn" (click)="openSeatMap(item.id)">Choose seat</button>
+          <button class="s-btn">Schedule</button>
+          <button class="s-btn">Transshipment</button>
+          <button class="s-btn">Policy</button>
         </div>
+      </div>
+
+      <div *ngIf="idSeatMapActive === item.id" [id]=item.id >
+        <app-seat-map [trip]="item" #seatMap/>
+      </div>
     </mat-card>
-    }
+  }
 </div>

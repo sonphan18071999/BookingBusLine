@@ -1,5 +1,5 @@
-import {CommonModule} from '@angular/common';
-import {Component, OnInit, signal} from '@angular/core';
+import {CommonModule, DOCUMENT} from '@angular/common';
+import {ChangeDetectorRef, Component, inject, Inject, OnInit, signal, ViewEncapsulation} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {TripTimeDurationComponent} from './trip-time-duration/trip-time-duration.component';
 import {MatButtonModule} from '@angular/material/button';
@@ -12,30 +12,29 @@ import {busMock} from '../../../shared/mocks/bus-mock.data';
 import {Bus} from '../../../models/bus.model';
 import {Trip} from '../../../models/trip.model';
 import {Store} from '@ngrx/store';
+import {SeatMapComponent} from "../../seat-map/seat-map.component";
 
 @Component({
   selector: 'app-trip-information',
   standalone: true,
-  imports: [CommonModule, MatCardModule, TripTimeDurationComponent, MatButtonModule, GetAvailableSeatPipe, GetMinSeatPricePipe],
+  imports: [CommonModule, MatCardModule, TripTimeDurationComponent, MatButtonModule, GetAvailableSeatPipe, GetMinSeatPricePipe, SeatMapComponent],
   templateUrl: './trip-information.component.html',
-  styleUrl: './trip-information.component.scss'
+  styleUrl: './trip-information.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class TripInformationComponent implements OnInit {
-  busRoutes = signal<BusRoute[]>(busRoutesMock);
-  buses = signal<Bus[]>(busMock);
-  trips = signal<Trip[]>([]);
+  public busRoutes = signal<BusRoute[]>(busRoutesMock);
+  public buses = signal<Bus[]>(busMock);
+  public trips = signal<Trip[]>([]);
+  public idSeatMapActive: string = ''
+  private cd = inject(ChangeDetectorRef);
 
-  constructor(protected router: Router, protected store: Store) {
+  constructor(protected router: Router, protected store: Store, @Inject(DOCUMENT) private document: Document) {
   }
+
 
   ngOnInit(): void {
     this.buildTrips();
-  }
-
-  selectTrip(tripId: string = "mx4ux"): void {
-    let selectedTrip = this.trips().filter((trip) => trip.id === tripId)[0];
-    // this.store.dispatch(saveTripInformation({ currentTrip: selectedTrip }));
-    this.router.navigate([`/selected-trip/${tripId}`])
   }
 
   buildTrips(): void {
@@ -47,15 +46,29 @@ export class TripInformationComponent implements OnInit {
 
       if (busFound) {
         const {seats, id, ...busWithoutSeats} = busFound;
-        let removedSeatsDefault = busWithoutSeats;
-
         tripInformation = {
-          ...route, ...removedSeatsDefault
+          ...route, ...(busWithoutSeats)
         };
         trips[ind] = tripInformation
       }
     })
 
     this.trips.set(trips);
+
   }
+
+  public openSeatMap(tripId: string): void {
+    this.idSeatMapActive = tripId;
+    this.cd.detectChanges(); // Ensure the view is updated
+
+    this.scrollSeatMapIntoView(tripId);
+  }
+
+  public scrollSeatMapIntoView(id: string): void {
+    setTimeout(() => {
+      document.querySelector(`#${id}`)?.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }, 100)
+  }
+
+
 }

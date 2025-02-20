@@ -1,0 +1,31 @@
+<div class="double__check-container">
+  @for (floor of seatDisplay(); track floor.name; let idx = $index) {
+    <div class="floor__container">
+      <p>{{ floor.name }}</p>
+
+      <div class="driver-section" [class.visible]="idx!==0">
+        <button disabled class="driver-btn">
+          <img alt="driver icon" height="30" src="assets/icons/steering-wheel.svg" width="30"/>
+        </button>
+        <button mat-icon-button [ngStyle]="{'color':'#0064D2'}">
+          <mat-icon>subdirectory_arrow_left</mat-icon>
+        </button>
+      </div>
+
+      <div class="divider"></div>
+      <div class="bus-floor">
+        @for (seat of floor.seats; track seat.id; let idx = $index) {
+          <button
+            class="seat-btn"
+            [class.occupied]="seat.isOccupied"
+            [title]="'Seat: ' + seat.id + ' | Price: $' + seat.price">
+            {{ seat.id }}
+          </button>
+          @if ((idx) % 4 === 1) {
+            <div class="spacer"></div>
+          }
+        }
+      </div>
+    </div>
+  }
+</div>

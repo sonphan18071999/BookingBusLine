@@ -1,61 +1,83 @@
-.seat__map {
-    width: 100%;
-    padding: 1rem 2rem;
 
-    &-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+.seat__map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    &-row {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1rem;        
-    }
+.seat__map-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
 
-    &-seat {
-        padding: 0.1rem;
-        width: 40px;
-        height: 70px;
-        display: flex;
-        align-items: flex-end;  
-        justify-content: center;
-        border: 0.1px solid grey;
-        border-radius: 5px;
-        background-color: transparent;
-        background-image: url('/assets/icons/car-seat-selected.png');
-        background-size: contain; 
-        background-repeat: no-repeat;
-        transition: transform 0.3s ease;
-    }
+.seat__map-seat {
+  padding: 0.1rem;
+  width: 40px;
+  height: 70px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border: 0.1px solid grey;
+  border-radius: 5px;
+  background-color: transparent;
+  background-image: url('/assets/icons/car-seat-selected.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: transform 0.3s ease;
+}
 
-    &-seat:hover{
-        cursor: pointer; 
-    }
+.seat__map-seat:hover {
+  cursor: pointer;
+}
 
-    .inactive{
-        background-color: rgb(200, 200, 200);
-    }
+.inactive {
+  background-color: rgb(200, 200, 200);
+}
 
-    .active{
-        background-image: url('/assets/icons/car-seat-unselected.png');
-        border-color: blue;
-        color: #3f51b5;
-        background-color: rgb(211, 234, 255);
-    }
+.active {
+  background-image: url('/assets/icons/car-seat-unselected.png');
+  border-color: blue;
+  color: #3f51b5;
+  background-color: rgb(211, 234, 255);
+}
 
-    .dynamic-space{
-        width: 40px;
-    }
+.dynamic-space {
+  width: 40px;
+}
 
-    &-table{
-        display: flex;
-        gap: 2rem;
-    }
+.seat__map-table {
+  display: flex;
+  gap: 2rem;
+}
 
-    &-content{
-        display: flex;
-        align-items: flex-start;
-    }
+.seat__map-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.seat__status-info {
+  min-width: 10rem;
+  padding: 0.5rem;
+  border: 1px solid grey;
+  border-radius: 5px;
+  max-height: 10rem;
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+
+}
+
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
 }

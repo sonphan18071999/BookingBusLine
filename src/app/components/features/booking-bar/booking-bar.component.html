@@ -54,7 +54,7 @@
       <app-ticket-count/>
     </div>
     <div [ngStyle]="{'margin-top':'1rem'}">
-      <button class="p-btn" type="submit">Search trips</button>
+      <button (click)="handleSearchTrip()" class="p-btn" type="submit">Search trips</button>
     </div>
   </form>
 

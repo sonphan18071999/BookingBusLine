@@ -1,16 +1,19 @@
-<mat-card class="seat__map" >
-    <div class="seat__map-header">
-        <mat-card-title>Seat select </mat-card-title>
-        <a href="#">Transport information</a>
-    </div>
-    <div class="seat__map-content">
-        <div id="seat-map" class="seat__map-table">
-            {{seatMap()}}
-        </div>
-        <ul>
-            <li>Sold</li>
-            <li>Available</li>
-            <li>Being Hold</li>
-        </ul>
-    </div>
-</mat-card>
+<!--<mat-card class="seat__map">-->
+<hr/>
+<div class="seat__map-content">
+  <div class="seat__map-table" id="seat-map">
+    @if (trip.type === BusType.DOUBLE_DECKER) {
+      <app-double-decker-bus-map [seat]="trip.seats"/>
+    }
+  </div>
+  <mat-card class="seat__status-info">
+    <p>Seat Information</p>
+    @for (status of seatStatuses; track status.type) {
+      <div class="status-item">
+        <span class="status-indicator" [ngStyle]="{'background-color': status.color,'border':'1px solid gray'}"></span>
+        {{ status.label }}
+      </div>
+    }
+  </mat-card>
+</div>
+<!--</mat-card>-->
