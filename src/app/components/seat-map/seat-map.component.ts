@@ -33,12 +33,17 @@ export class SeatMapComponent implements OnInit {
       color: "white"
     }
   ]
+  public seatsSelections: string[] = []
   protected readonly BusType = BusType;
 
   constructor() {
   }
 
   ngOnInit(): void {
+  }
+
+  public handleSeatsSelectionChange(items: string[]): void {
+    this.seatsSelections = items;
   }
 }
 

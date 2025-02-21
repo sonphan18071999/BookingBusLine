@@ -1,7 +1,7 @@
 .booking__bar {
   background: #fff;
   border: 1px solid rgba(239, 82, 34, .6);
-  border-radius: 1rem;
+  border-radius: 5px;
   padding: 1.5rem;
 
   .booking__bar--container {
@@ -31,6 +31,12 @@
 
   .button-image {
     transition: transform 0.3s ease-in-out;
+  }
+
+  .p-btn {
+    margin: auto;
+    width: 15rem;
+    display: block;
   }
 }
 

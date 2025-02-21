@@ -3,17 +3,34 @@
 <div class="seat__map-content">
   <div class="seat__map-table" id="seat-map">
     @if (trip.type === BusType.DOUBLE_DECKER) {
-      <app-double-decker-bus-map [seat]="trip.seats"/>
+      <app-double-decker-bus-map [seat]="trip.seats" (onSeatSelectionChange)="handleSeatsSelectionChange($event)"/>
     }
   </div>
-  <mat-card class="seat__status-info">
-    <p>Seat Information</p>
-    @for (status of seatStatuses; track status.type) {
-      <div class="status-item">
-        <span class="status-indicator" [ngStyle]="{'background-color': status.color,'border':'1px solid gray'}"></span>
-        {{ status.label }}
-      </div>
-    }
-  </mat-card>
+  <div class="seat-infor__container">
+    <mat-card class="seat__status-info">
+      <h5>Information</h5>
+      @for (status of seatStatuses; track status.type) {
+        <div class="status-item">
+          <span class="status-indicator"
+                [ngStyle]="{'background-color': status.color,'border':'1px solid gray'}"></span>
+          {{ status.label }}
+        </div>
+      }
+    </mat-card>
+    <mat-card class="seat__selections">
+      <h5>Selections @if (seatsSelections.length + 1 !== 1) {
+        ({{ seatsSelections.length }})
+      }</h5>
+      @for (item of seatsSelections; let idx = $index; track idx) {
+        @if (idx !== 0) {
+          ,
+        }
+        {{ item }}
+      }
+      @if (seatsSelections.length) {
+        <button class="p-btn">Checkout</button>
+      }
+    </mat-card>
+  </div>
 </div>
 <!--</mat-card>-->

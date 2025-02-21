@@ -15,9 +15,9 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {MatError, MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {Store} from '@ngrx/store';
-import {TicketState} from "../../../store/reducers/bus-ticket.reducer";
-import {BusTicket} from "../../../models/bus-ticket.model";
-import {updateBusTicket} from "../../../store/actions/bus-ticket.actions";
+import {SearchTrip} from "../../../models/bus-ticket.model";
+import {updateSearchTrip} from "../../../store/actions/search-trip.actions";
+import {SearchTripState} from "../../../store/reducers/search-trip.reducer";
 
 @Component({
   selector: 'app-booking-bar',
@@ -47,7 +47,7 @@ export class BookingBarComponent implements OnInit {
   public isRoundTrip: boolean = false;
   public isSwapStation: boolean = false;
   public formGroup: FormGroup = new FormGroup({});
-  public ticketStore = inject(Store<TicketState>)
+  public ticketStore = inject(Store<SearchTripState>)
 
   public constructor(
     protected router: Router,
@@ -100,15 +100,18 @@ export class BookingBarComponent implements OnInit {
 
     if (!this.formGroup.valid) return;
 
-    const busTicket: BusTicket = this.formGroup.value as BusTicket;
-    this.ticketStore.dispatch(updateBusTicket({ticket: busTicket}));
+    const busTicket: SearchTrip = this.formGroup.value as SearchTrip;
+    this.ticketStore.dispatch(updateSearchTrip({ticket: busTicket}));
   }
 
   public handleSearchTrip(): void {
-    this.router.navigate(['search-result']);
-    setTimeout(() => {
-      document.querySelector("#search__result-section")?.scrollIntoView({behavior: 'smooth', block: 'start'});
-    }, 100)
+    if (!this.formGroup.valid) return;
+    this.router.navigate(['search-result']).then(() => {
+      setTimeout(() => {
+        document.querySelector("#search__result-section")?.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }, 100)
+    });
+
   }
 
   private scrollToElement(elementId: string): void {

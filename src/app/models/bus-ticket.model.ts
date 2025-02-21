@@ -1,6 +1,6 @@
 import {TripType} from "../enums/trip-type";
 
-export class BusTicket {
+export class SearchTrip {
   public tripType: TripType;
   public departure: string;
   public destination: string;

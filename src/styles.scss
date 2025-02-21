@@ -28,6 +28,7 @@ body {
   padding: 1rem 2rem;
   border: none;
   transition: background-color 0.3s ease;
+  text-transform: uppercase;
 }
 
 .p-btn:hover {
@@ -60,17 +61,20 @@ body {
 }
 
 //Define style for inputs
-
 input[type="checkbox"] {
   transform: scale(1.5);
   margin-right: 1rem;
-  border-color: black;
+  border: 1px solid #1976d2;
+  border-radius: 5px;
+  width: 0.8rem;
+  height: 0.8rem;
 }
+
 
 //Responsive
 @media (min-width: 768px) {
   .p-btn {
-    width: 10rem;
+    //width: 10rem;
   }
 }
 
