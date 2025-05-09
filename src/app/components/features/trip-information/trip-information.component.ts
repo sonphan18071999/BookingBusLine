@@ -1,5 +1,5 @@
 import {CommonModule, DOCUMENT} from '@angular/common';
-import {Component, Inject, OnInit, signal, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, signal, ViewEncapsulation, computed} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {TripTimeDurationComponent} from './trip-time-duration/trip-time-duration.component';
 import {MatButtonModule} from '@angular/material/button';
@@ -13,6 +13,7 @@ import {Bus} from '../../../models/bus.model';
 import {Trip} from '../../../models/trip.model';
 import {Store} from '@ngrx/store';
 import {SeatMapComponent} from "../../seat-map/seat-map.component";
+import {Subject, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-trip-information',
@@ -22,37 +23,41 @@ import {SeatMapComponent} from "../../seat-map/seat-map.component";
   styleUrl: './trip-information.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class TripInformationComponent implements OnInit {
+export class TripInformationComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  
   public busRoutes = signal<BusRoute[]>(busRoutesMock);
   public buses = signal<Bus[]>(busMock);
-  public trips = signal<Trip[]>([]);
-  public idSeatMapActive: string = ''
+  public idSeatMapActive: string = '';
 
-  constructor(protected router: Router, protected store: Store, @Inject(DOCUMENT) private document: Document) {
-  }
+  // Use computed signal for trips to avoid unnecessary recalculations
+  public trips = computed(() => {
+    const routes = this.busRoutes();
+    const buses = this.buses();
+    
+    // Create a map for O(1) bus lookup
+    const busMap = new Map(buses.map(bus => [bus.id, bus]));
+    
+    return routes.map(route => {
+      const bus = busMap.get(route.busId);
+      if (!bus) return null;
+      
+      const {seats, id, ...busWithoutSeats} = bus;
+      return {
+        ...route,
+        ...busWithoutSeats
+      } as Trip;
+    }).filter((trip): trip is Trip => trip !== null);
+  });
 
+  constructor(
+    protected router: Router, 
+    protected store: Store, 
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   ngOnInit(): void {
-    this.buildTrips();
-  }
-
-  buildTrips(): void {
-    let trips = [] as Trip[];
-
-    this.busRoutes().forEach((route: BusRoute, ind: number) => {
-      let tripInformation = {} as Trip;
-      let busFound = this.buses().filter(bus => bus.id === route.busId)[0]
-
-      if (busFound) {
-        const {seats, id, ...busWithoutSeats} = busFound;
-        tripInformation = {
-          ...route, ...(busWithoutSeats)
-        };
-        trips[ind] = tripInformation
-      }
-    })
-
-    this.trips.set(trips);
+    // No need to call buildTrips() anymore as it's handled by the computed signal
   }
 
   public openSeatMap(tripId: string): void {
@@ -61,10 +66,16 @@ export class TripInformationComponent implements OnInit {
   }
 
   public scrollSeatMapIntoView(id: string): void {
-    setTimeout(() => {
-      document.querySelector(`#${id}`)?.scrollIntoView({behavior: 'smooth', block: 'start'});
-    }, 100)
+    requestAnimationFrame(() => {
+      const element = document.querySelector(`#${id}`);
+      if (element) {
+        element.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
+    });
   }
 
-
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
