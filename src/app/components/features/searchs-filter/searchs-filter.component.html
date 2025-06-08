@@ -1,11 +1,10 @@
 <mat-card class="search__filter">
   <div class="search__filter-header">
     <h3>Search Filter</h3>
-    <button mat-icon-button>
-      <mat-icon>filter_list</mat-icon>
-    </button>
+    
   </div>
-  <div>
-    <app-departure-time-filter/>
+  <div class="search__filter-content">
+    <!-- <app-departure-time-filter/> -->
+    <app-bus-search-filter (filterChange)="onAdvancedFiltersChange($event)"/>
   </div>
 </mat-card>

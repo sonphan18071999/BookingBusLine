@@ -1,0 +1,48 @@
+<div class="advanced-options">
+  <form [formGroup]="filterForm" (ngSubmit)="onFilterChange()" class="advanced-options-content">
+    <!-- Bus Class Selection -->
+    <mat-form-field appearance="outline">
+      <mat-label>Bus Class</mat-label>
+      <mat-select formControlName="busClass">
+        <mat-option *ngFor="let class of busClasses" [value]="class">
+          {{ class }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Price Range -->
+    <div formGroupName="priceRange" class="price-range">
+      <mat-label>Price Range</mat-label>
+      <div class="price-inputs">
+        <mat-form-field appearance="outline">
+          <mat-label>Min</mat-label>
+          <input matInput type="number" formControlName="min" />
+        </mat-form-field>
+        <span>-</span>
+        <mat-form-field appearance="outline">
+          <mat-label>Max</mat-label>
+          <input matInput type="number" formControlName="max" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Bus Preferences -->
+    <div formGroupName="preferences" class="preferences">
+      <mat-label>Preferences</mat-label>
+      <div class="preference-options">
+        <mat-checkbox formControlName="hasWifi">WiFi</mat-checkbox>
+        <mat-checkbox formControlName="hasUSBCharge">USB Charging</mat-checkbox>
+        <mat-checkbox formControlName="hasToilet">Toilet</mat-checkbox>
+        <mat-checkbox formControlName="hasEntertainment">Entertainment</mat-checkbox>
+        <mat-checkbox formControlName="isAccessible">Wheelchair Accessible</mat-checkbox>
+        <mat-checkbox formControlName="hasRefreshments">Refreshments</mat-checkbox>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button mat-stroked-button type="button" (click)="resetForm()">Reset Filters</button>
+      <button mat-raised-button color="primary" type="submit">Apply Filters</button>
+    </div>
+  </form>
+</div>
