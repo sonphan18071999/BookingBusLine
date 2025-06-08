@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:BookingBusLine": "node dist/booking-bus-line/server/server.mjs",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -35,12 +36,20 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.14",
+    "@angular-eslint/builder": "^18.0.0",
+    "@angular-eslint/eslint-plugin": "^18.0.0",
+    "@angular-eslint/eslint-plugin-template": "^18.0.0",
+    "@angular-eslint/schematics": "^18.0.0",
+    "@angular-eslint/template-parser": "^18.0.0",
     "@angular/cli": "^18.2.14",
     "@angular/compiler-cli": "^18.2.13",
     "@puppeteer/ng-schematics": "^0.5.6",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
     "jasmine": "5.1.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
