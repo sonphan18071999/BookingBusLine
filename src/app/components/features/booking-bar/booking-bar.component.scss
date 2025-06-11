@@ -1,32 +1,147 @@
+// Color variables
+:root {
+  --primary-color: #ef5222;
+  --primary-color-light: rgba(239, 82, 34, 0.6);
+  --primary-color-hover: #d64115; // darken(#ef5222, 10%)
+  --primary-color-bg-hover: rgba(239, 82, 34, 0.1);
+  
+  --background-color: #fff;
+  --border-color: #e6e8e9;
+  --text-color: #333;
+  --disabled-color: #ccc;
+  
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color-hover: rgba(0, 0, 0, 0.15);
+  
+  --error-color: #f44336;
+  --success-color: #4caf50;
+
+  // Form dimensions
+  --form-field-height: 56px;
+  --form-field-line-height: 1.5;
+}
+
 .booking__bar {
-  background: #fff;
-  border: 1px solid rgba(239, 82, 34, .6);
-  border-radius: 5px;
-  padding: 1.5rem;
+  background: var(--background-color);
+  border: 1px solid var(--primary-color-light);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px var(--shadow-color-hover);
+  }
 
   .booking__bar--container {
     width: 100%;
     display: flex;
-    gap: 10px;
-    align-items: center;
+    gap: 1.5rem;
+    align-items: stretch;
     flex-direction: column;
-    overflow-x: scroll;
+    overflow-x: hidden;
+    padding: 1.5rem 0;
+
+    mat-form-field {
+      width: 100%;
+
+      &.ng-invalid.ng-touched {
+        .mat-form-field-outline {
+          color: var(--error-color);
+        }
+      }
+
+      &.ng-valid {
+        .mat-form-field-outline {
+          color: var(--success-color);
+        }
+      }
+
+      // Ensure consistent height for all form fields
+      .mat-mdc-form-field-flex {
+        height: var(--form-field-height);
+      }
+
+      // Style for the input elements
+      .mat-mdc-form-field-infix {
+        height: var(--form-field-height);
+        display: flex;
+        align-items: center;
+        padding: 0 !important;
+      }
+
+      // Ensure input text is vertically centered
+      input.mat-mdc-input-element {
+        line-height: var(--form-field-line-height);
+        margin: 0;
+        height: 100%;
+      }
+
+      // Adjust autocomplete panel styling
+      .mat-mdc-autocomplete-panel {
+        mat-option {
+          height: var(--form-field-height);
+          line-height: var(--form-field-line-height);
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+
+    .origin,
+    .destination,
+    .departure-date,
+    .return__date {
+      width: 100%;
+
+      p {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+      }
+
+      input {
+        font-size: 1rem;
+        padding: 0.5rem;
+      }
+    }
+
+    // Ensure app-ticket-count has the same height
+    app-ticket-count {
+      ::ng-deep {
+        mat-form-field {
+          .mat-mdc-form-field-flex {
+            height: var(--form-field-height);
+          }
+        }
+      }
+    }
   }
 
   .image-button {
     display: flex;
     align-items: center;
-    justify-items: center;
-    background-color: transparent;
-    height: 2.5rem;
-    border-radius: 2rem;
-    border: 1px solid transparent;
-    padding: 0.5rem 1rem;
-  }
+    justify-content: center;
+    background-color: var(--background-color);
+    height: var(--form-field-height);
+    width: var(--form-field-height);
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+    align-self: flex-end;
+    margin-bottom: 0.25rem;
 
-  .image-button:hover {
-    cursor: pointer;
-    border: 1px solid #E6E8E9;
+    &:hover {
+      cursor: pointer;
+      background-color: var(--primary-color-bg-hover);
+      border-color: var(--primary-color-light);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
   }
 
   .button-image {
@@ -34,28 +149,51 @@
   }
 
   .p-btn {
-    margin: auto;
+    margin: 2rem auto 0;
     width: 15rem;
     display: block;
-  }
-}
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--background-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
-app-ticket-count {
-  flex: 1;
-}
+    &:hover {
+      background-color: var(--primary-color-hover);
+      transform: translateY(-1px);
+    }
 
-@media (min-width: 768px) {
-  .image-button {
-    transform: rotate(-90deg);
-  }
-
-  .booking__bar {
-    .booking__bar--container {
-      flex-direction: row;
+    &:disabled {
+      background-color: var(--disabled-color);
+      cursor: not-allowed;
     }
   }
 }
 
-app-origin, app-destination, app-departure-date, app-ticket-count, app-return-date {
-  width: 100%;
+@media (min-width: 768px) {
+  .booking__bar {
+    .booking__bar--container {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+
+      .origin,
+      .destination,
+      .departure-date,
+      .return__date {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      // Adjust swap button alignment in desktop view
+      .image-button {
+        margin: 0;
+        align-self: center;
+      }
+    }
+  }
 }

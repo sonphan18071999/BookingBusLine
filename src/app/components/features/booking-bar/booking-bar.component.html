@@ -1,61 +1,112 @@
 <mat-card class="booking__bar">
-  <form (submit)="handleFormSubmit($event)" [formGroup]="formGroup">
+  <form (ngSubmit)="handleFormSubmit($event)" [formGroup]="formGroup">
     <app-trip-type (onChangeTripType)="handleTripTypeChange($event)" formControlName="tripType"/>
 
     <div class="booking__bar--container">
-
       <div class="origin">
-        <p>Origin</p>
-        <mat-form-field>
-          <input formControlName="departure" matInput placeholder="Ex: Departation">
+        <mat-form-field appearance="outline">
+          <mat-label>Select origin</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="departure"
+            [matAutocomplete]="departureAuto"
+            placeholder="Type to search...">
+          <mat-autocomplete #departureAuto="matAutocomplete">
+            <mat-option *ngFor="let location of filteredDepartures" [value]="location.name">
+              {{location.name}} ({{location.code}})
+            </mat-option>
+          </mat-autocomplete>
           <mat-error *ngIf="formGroup.get('departure')?.hasError('required')">
-            *Departure field is required
+            Origin is required
           </mat-error>
         </mat-form-field>
       </div>
 
-      <button (click)="onSwapStationChange()" class="image-button">
+      <button type="button" (click)="onSwapStationChange()" class="image-button" aria-label="Swap stations">
         <img
           [ngStyle]="{ transform: isSwapStation ? 'rotate(180deg)' : 'rotate(0deg)' }"
-          alt="Swap icon" class="button-image" height="16px"
+          alt="Swap stations"
+          class="button-image"
+          height="16px"
           src="assets/icons/swap_icon.svg"
           width="16px"/>
       </button>
 
       <div class="destination">
-        <p>Destination</p>
-        <mat-form-field class="example-full-width">
-          <input formControlName="destination" matInput
-                 placeholder="Ex. Desitination">
+        <mat-form-field appearance="outline">
+          <mat-label>Select destination</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="destination"
+            [matAutocomplete]="destinationAuto"
+            placeholder="Type to search...">
+          <mat-autocomplete #destinationAuto="matAutocomplete">
+            <mat-option *ngFor="let location of filteredDestinations" [value]="location.name">
+              {{location.name}} ({{location.code}})
+            </mat-option>
+          </mat-autocomplete>
           <mat-error *ngIf="formGroup.get('destination')?.hasError('required')">
-            *Destination field is required
+            Destination is required
           </mat-error>
         </mat-form-field>
-
       </div>
 
       <div class="departure-date">
-        <p>Departure Date</p>
-        <mat-form-field>
-          <input formControlName="departureDate"
-                 matInput type="date">
+        <mat-form-field appearance="outline">
+          <mat-label>Choose departure date</mat-label>
+          <input
+            matInput
+            type="date"
+            formControlName="departureDate"
+            [min]="minDate | date:'yyyy-MM-dd'"
+            [max]="maxDate | date:'yyyy-MM-dd'">
+          <mat-error *ngIf="formGroup.get('departureDate')?.hasError('required')">
+            Departure date is required
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('departureDate')?.hasError('pastDate')">
+            Cannot select a past date
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('departureDate')?.hasError('futureDate')">
+            Date cannot be more than 3 months in advance
+          </mat-error>
         </mat-form-field>
       </div>
 
-      <ng-container *ngIf="isRoundTrip;">
+      <ng-container *ngIf="isRoundTrip">
         <div class="return__date">
-          <p>Return Date</p>
-          <mat-form-field>
-            <input formControlName="returnDate" matInput placeholder="Ex. Pizza" type="date">
+          <mat-form-field appearance="outline">
+            <mat-label>Choose return date</mat-label>
+            <input
+              matInput
+              type="date"
+              formControlName="returnDate"
+              [min]="formGroup.get('departureDate')?.value"
+              [max]="maxDate | date:'yyyy-MM-dd'">
+            <mat-error *ngIf="formGroup.get('returnDate')?.hasError('required')">
+              Return date is required
+            </mat-error>
+            <mat-error *ngIf="formGroup.get('returnDate')?.hasError('invalidReturnDate')">
+              Return date must be after departure date
+            </mat-error>
+            <mat-error *ngIf="formGroup.get('returnDate')?.hasError('futureDate')">
+              Date cannot be more than 3 months in advance
+            </mat-error>
           </mat-form-field>
         </div>
       </ng-container>
 
       <app-ticket-count/>
     </div>
+    
     <div>
-      <button (click)="handleSearchTrip()" class="p-btn" type="submit">Search trips</button>
+      <button
+        class="p-btn"
+        type="submit"
+        [disabled]="!formGroup.valid">
+        Search trips
+      </button>
     </div>
   </form>
-
 </mat-card>

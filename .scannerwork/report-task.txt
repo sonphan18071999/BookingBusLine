@@ -1,0 +1,7 @@
+organization=sonphan18071999
+projectKey=sonphan18071999_BookingBusLine
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.64232
+dashboardUrl=https://sonarcloud.io/dashboard?id=sonphan18071999_BookingBusLine
+ceTaskId=AZdPVM3gDq7gUqpL6TNi
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZdPVM3gDq7gUqpL6TNi

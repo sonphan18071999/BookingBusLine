@@ -8,16 +8,25 @@ import {ReturnDateComponent} from '../return-date/return-date.component';
 import {TicketCountComponent} from '../ticket-count/ticket-count.component';
 import {TripType} from '../../../enums/trip-type';
 import {Subject} from 'rxjs';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {Router} from '@angular/router';
-import {MatButtonModule} from '@angular/material/button';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatError, MatFormField} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatError, MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import {Store} from '@ngrx/store';
 import {SearchTrip} from "../../../models/bus-ticket.model";
 import {updateSearchTrip} from "../../../store/actions/search-trip.actions";
 import {SearchTripState} from "../../../store/reducers/search-trip.reducer";
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MOCK_LOCATIONS, Location } from '../../../mocks/location.mock';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-booking-bar',
@@ -32,54 +41,94 @@ import {SearchTripState} from "../../../store/reducers/search-trip.reducer";
     ReturnDateComponent,
     TicketCountComponent,
     MatButtonModule,
-    NgOptimizedImage,
     ReactiveFormsModule,
-    MatFormField,
-    MatInput,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
     MatError,
   ],
   templateUrl: './booking-bar.component.html',
   styleUrl: './booking-bar.component.scss',
-
 })
 export class BookingBarComponent implements OnInit {
   public unsubscribe$: Subject<boolean> = new Subject();
   public isRoundTrip: boolean = false;
   public isSwapStation: boolean = false;
   public formGroup: FormGroup = new FormGroup({});
-  public ticketStore = inject(Store<SearchTripState>)
+  public ticketStore = inject(Store<SearchTripState>);
+  public filteredDepartures: Location[] = [];
+  public filteredDestinations: Location[] = [];
+  public minDate: Date = new Date();
+  public maxDate: Date = new Date(new Date().setMonth(new Date().getMonth() + 3));
 
-  public constructor(
-    protected router: Router,
-    private fb: FormBuilder
-  ) {
-  }
+  constructor(protected router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.initFormGroup();
+    this.setupLocationAutocomplete();
   }
 
-  public initFormGroup() {
+  private initFormGroup() {
     this.formGroup = this.fb.group({
-      tripType: new FormControl<TripType>(TripType.ONE_WAY, [Validators.required]),
-      departure: new FormControl('', [Validators.required]),
-      destination: new FormControl('', [Validators.required]),
-      departureDate: new FormControl('', [Validators.required])
+      tripType: [TripType.ONE_WAY, [Validators.required]],
+      departure: ['', [Validators.required]],
+      destination: ['', [Validators.required]],
+      departureDate: ['', [Validators.required, this.dateValidator()]],
     });
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe$.next(true);
-    this.unsubscribe$.complete();
+  private setupLocationAutocomplete() {
+    this.formGroup
+      .get('departure')
+      ?.valueChanges.pipe(
+        startWith(''),
+        map((value) => this.filterLocations(value))
+      )
+      .subscribe((locations) => {
+        this.filteredDepartures = locations;
+      });
+
+    this.formGroup
+      .get('destination')
+      ?.valueChanges.pipe(
+        startWith(''),
+        map((value) => this.filterLocations(value))
+      )
+      .subscribe((locations) => {
+        this.filteredDestinations = locations;
+      });
   }
 
+  private filterLocations(value: string): Location[] {
+    const filterValue = value.toLowerCase();
+    return MOCK_LOCATIONS.filter(
+      (location) =>
+        location.name.toLowerCase().includes(filterValue) ||
+        location.code.toLowerCase().includes(filterValue)
+    );
+  }
+
+  private dateValidator() {
+    return (control: FormControl): { [key: string]: any } | null => {
+      const date = new Date(control.value);
+      if (date < this.minDate) {
+        return { pastDate: true };
+      }
+      if (date > this.maxDate) {
+        return { futureDate: true };
+      }
+      return null;
+    };
+  }
 
   public onSwapStationChange(): void {
     this.isSwapStation = !this.isSwapStation;
-
     const currentDeparture = this.formGroup.get('departure')?.value;
     const currentDestination = this.formGroup.get('destination')?.value;
-    this.formGroup.patchValue({departure: currentDestination, destination: currentDeparture});
+    this.formGroup.patchValue({
+      departure: currentDestination,
+      destination: currentDeparture,
+    });
   }
 
   public handleTripTypeChange(type: TripType): void {
@@ -88,39 +137,63 @@ export class BookingBarComponent implements OnInit {
     const controlName = 'returnDate';
 
     if (roundTripActive && !this.formGroup.contains(controlName)) {
-      this.formGroup.addControl(controlName, new FormControl('', Validators.required));
+      this.formGroup.addControl(
+        controlName,
+        new FormControl('', [Validators.required, this.returnDateValidator()])
+      );
     } else {
       this.formGroup.removeControl(controlName);
     }
   }
 
+  private returnDateValidator() {
+    return (control: FormControl): { [key: string]: any } | null => {
+      const returnDate = new Date(control.value);
+      const departureDate = new Date(this.formGroup.get('departureDate')?.value);
+
+      if (returnDate < departureDate) {
+        return { invalidReturnDate: true };
+      }
+      if (returnDate > this.maxDate) {
+        return { futureDate: true };
+      }
+      return null;
+    };
+  }
+
   public handleFormSubmit($event: Event): void {
-    this.formGroup.markAllAsTouched()
+    $event.preventDefault();
+    this.formGroup.markAllAsTouched();
     this.formGroup.updateValueAndValidity();
 
-    if (!this.formGroup.valid) return;
+    if (!this.formGroup.valid) {
+      return;
+    }
 
     const busTicket: SearchTrip = this.formGroup.value as SearchTrip;
-    this.ticketStore.dispatch(updateSearchTrip({ticket: busTicket}));
+    this.ticketStore.dispatch(updateSearchTrip({ ticket: busTicket }));
+    this.handleSearchTrip();
   }
 
   public handleSearchTrip(): void {
     if (!this.formGroup.valid) return;
+
     this.router.navigate(['search-result']).then(() => {
       setTimeout(() => {
-        document.querySelector("#search__result-section")?.scrollIntoView({behavior: 'smooth', block: 'start'});
-      }, 100)
+        this.scrollToElement('search__result-section');
+      }, 100);
     });
-
   }
 
   private scrollToElement(elementId: string): void {
     const element = document.getElementById(elementId);
     if (element) {
-      element.scrollIntoView({behavior: 'smooth', block: 'start'});
-    } else {
-      console.warn(`Element with ID ${elementId} not found.`);
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(true);
+    this.unsubscribe$.complete();
+  }
 }
